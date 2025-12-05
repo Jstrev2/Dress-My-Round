@@ -1,0 +1,114 @@
+'use client'
+import { useState } from 'react'
+import WeatherForm from '@/components/WeatherForm'
+import WeatherDisplay from '@/components/WeatherDisplay'
+import OutfitDisplay from '@/components/OutfitDisplay'
+import { RoundWeatherData } from '@/lib/weather'
+
+interface Recommendations {
+  top: string[]
+  bottom: string[]
+  accessories: string[]
+  footwear: string[]
+  layers: string[]
+}
+
+export default function Home() {
+  const [weatherData, setWeatherData] = useState<RoundWeatherData | null>(null)
+  const [recommendations, setRecommendations] = useState<Recommendations | null>(null)
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50">
+      {/* Hero Section */}
+      <div className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-emerald-600/10 via-teal-600/5 to-cyan-600/10"></div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+          <header className="text-center mb-20 lg:mb-24">
+            <div className="flex flex-col md:flex-row items-center justify-center mb-8">
+              <div className="text-7xl md:text-8xl mb-4 md:mb-0 md:mr-6">🏌️‍♂️</div>
+              <h1 className="text-5xl md:text-6xl lg:text-7xl font-black bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 bg-clip-text text-transparent leading-tight">
+                Dress My Round
+              </h1>
+            </div>
+            <p className="text-xl md:text-2xl lg:text-3xl text-gray-700 max-w-4xl mx-auto leading-relaxed mb-10">
+              Get personalized golf attire recommendations for your entire 4.5-hour round based on real-time weather forecasts
+            </p>
+            <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 text-sm md:text-base text-gray-600">
+              <div className="flex items-center">
+                <span className="text-lg mr-2">🌤️</span>
+                <span>Hourly Forecasts</span>
+              </div>
+              <div className="flex items-center">
+                <span className="text-lg mr-2">👕</span>
+                <span>Smart Recommendations</span>
+              </div>
+              <div className="flex items-center">
+                <span className="text-lg mr-2">🚶‍♂️</span>
+                <span>Walking vs Riding</span>
+              </div>
+            </div>
+          </header>
+
+          {/* Main Content */}
+          <div className="space-y-12 lg:space-y-16 max-w-7xl mx-auto">
+            {/* Input Form - Full Width */}
+            <div className="max-w-3xl mx-auto">
+              <WeatherForm
+                onWeatherUpdate={setWeatherData}
+                onRecommendationUpdate={setRecommendations}
+              />
+            </div>
+
+            {/* Weather & Outfit Display - Side by Side */}
+            {(weatherData || recommendations) && (
+              <div className="grid lg:grid-cols-2 gap-8 lg:gap-12">
+                {/* Weather Section */}
+                <div className="min-h-[500px] lg:min-h-[600px]">
+                  <WeatherDisplay weatherData={weatherData} />
+                </div>
+
+                {/* Outfit Section */}
+                <div className="min-h-[500px] lg:min-h-[600px]">
+                  <OutfitDisplay
+                    weatherData={weatherData}
+                    recommendations={recommendations}
+                  />
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Features Section - Only show if no data yet */}
+          {!weatherData && !recommendations && (
+            <div className="mt-20 lg:mt-24 grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+              <div className="text-center p-6 lg:p-8 bg-white/50 backdrop-blur-sm rounded-2xl border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300">
+                <div className="text-4xl lg:text-5xl mb-4">⛈️</div>
+                <h3 className="font-semibold text-gray-800 mb-3 text-lg">Weather Changes</h3>
+                <p className="text-gray-600 text-sm leading-relaxed">Track conditions throughout your entire 4.5-hour round</p>
+              </div>
+              <div className="text-center p-6 lg:p-8 bg-white/50 backdrop-blur-sm rounded-2xl border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300">
+                <div className="text-4xl lg:text-5xl mb-4">🎯</div>
+                <h3 className="font-semibold text-gray-800 mb-3 text-lg">Activity-Based</h3>
+                <p className="text-gray-600 text-sm leading-relaxed">Recommendations adjust for walking vs riding</p>
+              </div>
+              <div className="text-center p-6 lg:p-8 bg-white/50 backdrop-blur-sm rounded-2xl border border-white/20 shadow-lg hover:shadow-xl transition-all duration-300">
+                <div className="text-4xl lg:text-5xl mb-4">🏆</div>
+                <h3 className="font-semibold text-gray-800 mb-3 text-lg">Golf-Focused</h3>
+                <p className="text-gray-600 text-sm leading-relaxed">Specialized advice for golf conditions</p>
+              </div>
+            </div>
+          )}
+
+          <footer className="text-center mt-16 lg:mt-20 text-gray-500">
+            <p className="text-base md:text-lg">
+              {weatherData ?
+                "Have a great round! 🏌️‍♂️" :
+                "Making every round more comfortable, one forecast at a time"
+              }
+            </p>
+          </footer>
+        </div>
+      </div>
+    </div>
+  )
+}

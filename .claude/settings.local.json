@@ -1,0 +1,35 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run lint)",
+      "WebFetch(domain:dressmyrun.com)",
+      "WebFetch(domain:weather.gov)",
+      "WebFetch(domain:www.weather.gov)",
+      "WebFetch(domain:weather.com)",
+      "Bash(npm run build:*)",
+      "Bash(npx next:*)",
+      "Bash(npm run dev:*)",
+      "Bash(pkill:*)",
+      "Bash(taskkill:*)",
+      "Bash(npm install:*)",
+      "Bash(curl:*)",
+      "Bash(for:*)",
+      "Bash(do netstat -ano)",
+      "Bash(findstr:*)",
+      "Bash(awk:*)",
+      "Bash(xargs:*)",
+      "Bash(done)",
+      "Bash(powershell -Command:*)",
+      "Bash(node scripts/create-placeholder.js:*)",
+      "Bash(node scripts/create-colored-placeholders.js:*)",
+      "Bash(cat:*)",
+      "Bash(node:*)",
+      "Bash(npm --version:*)",
+      "Bash(git init:*)",
+      "Bash(git config:*)",
+      "Bash(git add:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
