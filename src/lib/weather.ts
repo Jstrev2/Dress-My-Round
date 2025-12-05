@@ -49,24 +49,23 @@ async function resolveZipCode(zipCode: string): Promise<string> {
 
     // Fallback: return zipCode with US suffix
     return `${zipCode}, United States`
-  } catch (error) {
-    console.error('Error resolving zip code:', error)
+  } catch (_error) {
     return `${zipCode}, United States`
   }
 }
 
-export async function getWeatherData(location: string, date?: string, time?: string): Promise<WeatherData> {
+export async function getWeatherData(location: string, _date?: string, _time?: string): Promise<WeatherData> {
   // For demo purposes, we'll use a free weather service or mock data
   // In production, you'd use a service like OpenWeatherMap, WeatherAPI, or similar
 
   if (!WEATHER_API_KEY) {
     // Return mock data if no API key is set
-    return getMockWeatherData(location, date, time)
+    return getMockWeatherData(location)
   }
 
   try {
     // Determine if we need current or forecast data
-    const isCurrentWeather = !date || date === new Date().toISOString().split('T')[0]
+    const isCurrentWeather = !_date || _date === new Date().toISOString().split('T')[0]
 
     let apiUrl: string
     // For US zip codes, resolve to city name first
@@ -104,15 +103,15 @@ export async function getWeatherData(location: string, date?: string, time?: str
       }
     } else {
       // Forecast data
-      const targetDate = data.forecast.forecastday.find((day: any) => day.date === date)
+      const targetDate = data.forecast.forecastday.find((day: any) => day.date === _date)
       if (!targetDate) {
         throw new Error('Forecast data not available for selected date')
       }
 
       // Find the closest hour or use day average
       let weatherData
-      if (time) {
-        const targetHour = parseInt(time.split(':')[0])
+      if (_time) {
+        const targetHour = parseInt(_time.split(':')[0])
         const hourData = targetDate.hour.find((h: any) => new Date(h.time).getHours() === targetHour)
         if (hourData) {
           weatherData = {
@@ -142,31 +141,30 @@ export async function getWeatherData(location: string, date?: string, time?: str
 
       return weatherData
     }
-  } catch (error) {
-    console.error('Error fetching weather data:', error)
+  } catch (_error) {
     // Fallback to mock data
-    return getMockWeatherData(location, date, time)
+    return getMockWeatherData(location)
   }
 }
 
-function getMockWeatherData(location: string, date?: string, time?: string): WeatherData {
+function getMockWeatherData(location: string): WeatherData {
   // Generate realistic mock data based on location and current season
   const mockConditions = [
     'Sunny', 'Partly Cloudy', 'Cloudy', 'Light Rain', 'Clear'
   ]
 
-  const baseTemp = 70 + Math.random() * 20 // 70-90°F range
+  const temp = 70 + Math.random() * 20 // 70-90°F range
   const condition = mockConditions[Math.floor(Math.random() * mockConditions.length)]
   const windSpeed = Math.round(Math.random() * 15) + 3 // 3-18 mph
   const humidity = Math.round(Math.random() * 40) + 40 // 40-80%
 
   return {
     location: location,
-    temperature: Math.round(baseTemp),
+    temperature: Math.round(temp),
     condition: condition,
     windSpeed: windSpeed,
     humidity: humidity,
-    feelsLike: Math.round(baseTemp + (Math.random() * 6 - 3)), // ±3 degrees
+    feelsLike: Math.round(temp + (Math.random() * 6 - 3)), // ±3 degrees
     icon: '//cdn.weatherapi.com/weather/64x64/day/116.png' // partly cloudy icon
   }
 }
@@ -274,8 +272,7 @@ export async function getRoundWeatherData(location: string, date?: string, start
         humidities.push(weatherData.humidity)
       }
     }
-  } catch (error) {
-    console.error('Error fetching round weather data:', error)
+  } catch (_error) {
     // Fallback to mock data
     return generateMockRoundWeather(location, date, startTime, startHour, roundDuration)
   }
@@ -316,8 +313,7 @@ export async function getRoundWeatherData(location: string, date?: string, start
     predominantCondition,
     maxWindSpeed,
     averageHumidity,
-    weatherChanges,
-    source: 'api'
+    weatherChanges
   }
 }
 
@@ -449,7 +445,6 @@ function generateMockRoundWeather(location: string, date?: string, startTime?: s
     predominantCondition,
     maxWindSpeed,
     averageHumidity,
-    weatherChanges,
-    source: 'mock'
+    weatherChanges
   }
 }
