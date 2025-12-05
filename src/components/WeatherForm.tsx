@@ -26,7 +26,6 @@ export default function WeatherForm({ onWeatherUpdate, onRecommendationUpdate }:
   const [walkingMode, setWalkingMode] = useState<'walking' | 'riding'>('riding')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [latestSource, setLatestSource] = useState<'api' | 'mock' | null>(null)
 
   useEffect(() => {
     const today = new Date().toISOString().split('T')[0]
@@ -67,7 +66,6 @@ export default function WeatherForm({ onWeatherUpdate, onRecommendationUpdate }:
       const weatherData: RoundWeatherData = await response.json()
       const recommendations = generateRecommendations(weatherData, walkingMode)
 
-      setLatestSource(weatherData.source ?? 'mock')
       onWeatherUpdate(weatherData)
       onRecommendationUpdate(recommendations)
     } catch (fetchError) {
