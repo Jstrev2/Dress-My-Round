@@ -79,7 +79,6 @@ export default function WeatherForm({ onWeatherUpdate, onRecommendationUpdate }:
   return (
     <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-white/20 p-4 hover:shadow-xl transition-all duration-300">
       <div className="flex items-center mb-4">
-        <div className="text-lg mr-2 font-semibold text-emerald-600">Plan</div>
         <h2 className="text-lg font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
           Plan Your Round
         </h2>
