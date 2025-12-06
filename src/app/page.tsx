@@ -20,16 +20,6 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50">
       <div className="w-full px-3 sm:px-4 py-2">
-        {/* Hero Section */}
-        <div className="text-center mb-3">
-          <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 bg-clip-text text-transparent mb-1">
-            🏌️‍♂️ Plan Your Round
-          </h1>
-          <p className="text-sm text-gray-700 max-w-2xl mx-auto">
-            Fore-cast for Your Attire
-          </p>
-        </div>
-
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
           {/* Left Column - Weather Form and Display */}
