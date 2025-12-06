@@ -109,7 +109,7 @@ export default function WeatherForm({ onWeatherUpdate, onRecommendationUpdate }:
               onChange={(event) => setDate(event.target.value)}
               min={new Date().toISOString().split('T')[0]}
               max={new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]}
-              className="w-full px-3 py-2 border-2 border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200"
+              className="w-full px-3 py-2.5 border-2 border-gray-300 rounded-lg text-sm text-gray-900 bg-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200"
             />
           </div>
 
@@ -121,7 +121,7 @@ export default function WeatherForm({ onWeatherUpdate, onRecommendationUpdate }:
               id="time"
               value={time}
               onChange={(event) => setTime(event.target.value)}
-              className="w-full px-3 py-2 border-2 border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200 bg-white"
+              className="w-full px-3 py-2.5 border-2 border-gray-300 rounded-lg text-sm text-gray-900 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200 bg-white"
             >
               <option value="05:00">5:00 AM</option>
               <option value="05:30">5:30 AM</option>
