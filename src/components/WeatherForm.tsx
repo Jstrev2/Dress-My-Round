@@ -97,7 +97,7 @@ export default function WeatherForm({ onWeatherUpdate, onRecommendationUpdate }:
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div className="space-y-2">
             <label htmlFor="date" className="text-sm font-semibold text-gray-700">
               Date
@@ -157,7 +157,7 @@ export default function WeatherForm({ onWeatherUpdate, onRecommendationUpdate }:
         </div>
 
         <div className="space-y-2">
-          <div className="flex items-center gap-4">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
             <div className="flex-1 space-y-2">
               <label className="text-sm font-semibold text-gray-700">
                 Holes
