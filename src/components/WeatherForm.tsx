@@ -221,8 +221,11 @@ export default function WeatherForm({ onWeatherUpdate, onRecommendationUpdate }:
         </div>
 
         {error && (
-          <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
-            <p className="text-red-700 text-sm">{error}</p>
+          <div className="p-4 bg-rose-50 border border-rose-200 rounded-xl shadow-sm">
+            <div className="flex items-start gap-3">
+              <span className="text-rose-600 text-lg mt-0.5">⚠️</span>
+              <p className="text-rose-800 text-sm font-medium">{error}</p>
+            </div>
           </div>
         )}
 

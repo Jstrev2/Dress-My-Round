@@ -77,8 +77,11 @@ export default function WeatherDisplay({ weatherData }: Props) {
         </div>
 
         {weatherData.weatherChanges && (
-          <div className="mt-4 p-3 bg-amber-100/80 border border-amber-300 rounded-lg text-amber-800 text-sm text-center font-medium">
-            ⚠️ Weather conditions expected to change during your round
+          <div className="mt-4 p-4 bg-amber-50 border border-amber-200 rounded-xl shadow-sm">
+            <div className="flex items-start gap-3">
+              <span className="text-amber-600 text-lg mt-0.5">⚠️</span>
+              <p className="text-amber-800 text-sm font-medium">Weather conditions expected to change during your round</p>
+            </div>
           </div>
         )}
       </div>
