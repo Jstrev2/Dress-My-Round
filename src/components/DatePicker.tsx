@@ -1,5 +1,6 @@
 'use client'
 import { useState, useRef, useEffect } from 'react'
+import { Calendar, ChevronLeft, ChevronRight } from 'lucide-react'
 
 interface DatePickerProps {
   value: string
@@ -102,14 +103,7 @@ export default function DatePicker({ value, onChange, minDate, maxDate }: DatePi
         className="w-full px-4 py-2.5 border-2 border-gray-300 rounded-lg text-base text-gray-900 bg-white focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50 focus:border-emerald-500 transition-all duration-200 flex items-center justify-between"
       >
         <span>{formatDisplayDate(value) || 'Select date'}</span>
-        <svg
-          className="w-5 h-5 text-gray-600"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h18M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-        </svg>
+        <Calendar className="w-4 h-4 text-gray-600" />
       </button>
 
       {isOpen && (
@@ -121,9 +115,7 @@ export default function DatePicker({ value, onChange, minDate, maxDate }: DatePi
               onClick={handlePrevMonth}
               className="p-2 hover:bg-gray-100 rounded transition-colors"
             >
-              <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
+              <ChevronLeft className="w-5 h-5 text-gray-600" />
             </button>
             <span className="text-sm font-semibold text-gray-900">{monthName}</span>
             <button
@@ -131,9 +123,7 @@ export default function DatePicker({ value, onChange, minDate, maxDate }: DatePi
               onClick={handleNextMonth}
               className="p-2 hover:bg-gray-100 rounded transition-colors"
             >
-              <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
+              <ChevronRight className="w-5 h-5 text-gray-600" />
             </button>
           </div>
 

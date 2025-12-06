@@ -1,5 +1,6 @@
 ﻿'use client'
 import { FormEvent, useEffect, useState } from 'react'
+import { Locate, Loader } from 'lucide-react'
 import SearchableLocationInput from './SearchableLocationInput'
 import DatePicker from './DatePicker'
 import { RoundWeatherData } from '@/lib/weather'
@@ -26,6 +27,7 @@ export default function WeatherForm({ onWeatherUpdate, onRecommendationUpdate }:
   const [roundType, setRoundType] = useState<RoundType>('full')
   const [walkingMode, setWalkingMode] = useState<'walking' | 'riding'>('riding')
   const [loading, setLoading] = useState(false)
+  const [geoLoading, setGeoLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
@@ -33,10 +35,49 @@ export default function WeatherForm({ onWeatherUpdate, onRecommendationUpdate }:
     setDate(today)
 
     const now = new Date()
-    const nextHour = new Date(now.getTime() + 60 * 60 * 1000)
-    const timeString = nextHour.toTimeString().slice(0, 5)
-    setTime(timeString)
+    // Round up to the next full hour
+    const roundedHour = now.getMinutes() === 0 ? now.getHours() : now.getHours() + 1
+    const nextHour = new Date(now.getFullYear(), now.getMonth(), now.getDate(), roundedHour, 0)
+    const hours = String(nextHour.getHours()).padStart(2, '0')
+    const minutes = String(nextHour.getMinutes()).padStart(2, '0')
+    setTime(`${hours}:${minutes}`)
   }, [])
+
+  const handleGeolocation = async () => {
+    setGeoLoading(true)
+    setError(null)
+
+    if (!navigator.geolocation) {
+      setError('Geolocation is not supported by your browser.')
+      setGeoLoading(false)
+      return
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        try {
+          const { latitude, longitude } = position.coords
+          // Use reverse geocoding to get location name
+          const response = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
+          )
+          const data = await response.json()
+          const locationName = data.address?.city || data.address?.town || data.address?.county || `${latitude.toFixed(4)}, ${longitude.toFixed(4)}`
+          setLocation(locationName)
+        } catch (geoError) {
+          console.error('Error reverse geocoding:', geoError)
+          setError('Could not determine location name. Please try again.')
+        } finally {
+          setGeoLoading(false)
+        }
+      },
+      (geoError) => {
+        console.error('Geolocation error:', geoError)
+        setError('Unable to access your location. Please enable location services.')
+        setGeoLoading(false)
+      }
+    )
+  }
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -90,12 +131,27 @@ export default function WeatherForm({ onWeatherUpdate, onRecommendationUpdate }:
           <label htmlFor="location" className="text-sm font-semibold text-gray-700">
             Where are you playing?
           </label>
-          <SearchableLocationInput
-            value={location}
-            onChange={setLocation}
-            placeholder="City, zip code, or golf course"
-            className="w-full px-4 py-2.5 border-2 border-gray-300 rounded-lg text-base text-gray-900 bg-white focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50 focus:border-emerald-500 transition-all duration-200 placeholder-gray-500"
-          />
+          <div className="relative">
+            <SearchableLocationInput
+              value={location}
+              onChange={setLocation}
+              placeholder="City, zip code, or golf course"
+              className="w-full px-4 py-2.5 pr-12 border-2 border-gray-300 rounded-lg text-base text-gray-900 bg-white focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50 focus:border-emerald-500 transition-all duration-200 placeholder-gray-500"
+            />
+            <button
+              type="button"
+              onClick={handleGeolocation}
+              disabled={geoLoading}
+              className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 text-gray-600 hover:text-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50 rounded transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              title="Use current location"
+            >
+              {geoLoading ? (
+                <Loader className="w-5 h-5 text-emerald-500 animate-spin" />
+              ) : (
+                <Locate className="w-5 h-5" />
+              )}
+            </button>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
