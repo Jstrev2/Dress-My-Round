@@ -35,7 +35,9 @@ export default function Navigation() {
           {/* Mobile menu button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden p-2 rounded-md text-gray-700 hover:text-emerald-600 hover:bg-gray-50 transition-colors"
+            className="md:hidden p-2.5 rounded-lg text-gray-700 hover:text-emerald-600 hover:bg-emerald-50 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50 transition-colors duration-200"
+            aria-expanded={isMenuOpen}
+            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           >
             <span className="sr-only">Open menu</span>
             {isMenuOpen ? (
@@ -52,32 +54,32 @@ export default function Navigation() {
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="md:hidden pb-4">
-            <div className="flex flex-col space-y-2">
+          <div className="md:hidden border-t border-emerald-100 pb-4">
+            <div className="flex flex-col space-y-1 pt-2">
               <Link
                 href="/"
-                className="block px-3 py-2 text-gray-700 hover:text-emerald-600 hover:bg-gray-50 rounded-md transition-colors font-medium"
+                className="block px-4 py-3 text-gray-800 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors duration-150 font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Home
               </Link>
               <Link
                 href="/weather-tips"
-                className="block px-3 py-2 text-gray-700 hover:text-emerald-600 hover:bg-gray-50 rounded-md transition-colors font-medium"
+                className="block px-4 py-3 text-gray-800 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors duration-150 font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Weather Tips
               </Link>
               <Link
                 href="/blog"
-                className="block px-3 py-2 text-gray-700 hover:text-emerald-600 hover:bg-gray-50 rounded-md transition-colors font-medium"
+                className="block px-4 py-3 text-gray-800 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors duration-150 font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Golf Attire Guide
               </Link>
               <Link
                 href="/how-to-use"
-                className="block px-3 py-2 text-gray-700 hover:text-emerald-600 hover:bg-gray-50 rounded-md transition-colors font-medium"
+                className="block px-4 py-3 text-gray-800 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors duration-150 font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50"
                 onClick={() => setIsMenuOpen(false)}
               >
                 How to Use
