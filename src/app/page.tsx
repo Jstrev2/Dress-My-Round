@@ -23,10 +23,10 @@ export default function Home() {
         {/* Hero Section */}
         <div className="text-center mb-3">
           <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 bg-clip-text text-transparent mb-1">
-            🏌️‍♂️ Dress My Round
+            🏌️‍♂️ Plan Your Round
           </h1>
           <p className="text-sm text-gray-700 max-w-2xl mx-auto">
-            Master every forecast in style—because looking good matters as much as your handicap
+            Fore-cast for Your Attire
           </p>
         </div>
 
