@@ -3,6 +3,7 @@ import { RoundWeatherData, WeatherData, getWeatherIcon, formatTime12Hour } from 
 import { useEffect, useState } from 'react'
 import { checkWeatherAccuracy, getWeatherSourceInfo } from '@/lib/weather-validation'
 import WeatherAccuracyChecker from './WeatherAccuracyChecker'
+import AnimatedGolfer from './AnimatedGolfer'
 
 interface Recommendations {
   top: string[]
@@ -35,7 +36,7 @@ export default function RecommendationDisplay({ weatherData, recommendations }: 
           <h2 className="text-lg font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">Your Golf Outfit</h2>
         </div>
         <div className="text-center py-8">
-          <div className="text-6xl mx-auto mb-3">⛳</div>
+          <AnimatedGolfer />
           <h3 className="text-base font-semibold text-gray-700 mb-1">Ready for Your Round?</h3>
           <p className="text-gray-500 text-xs leading-relaxed">
             Enter your location and tee time to get personalized outfit recommendations
