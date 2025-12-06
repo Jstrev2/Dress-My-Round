@@ -104,10 +104,11 @@ export default function DatePicker({ value, onChange, minDate, maxDate }: DatePi
         <span>{formatDisplayDate(value) || 'Select date'}</span>
         <svg
           className="w-4 h-4 text-gray-600"
-          fill="currentColor"
+          fill="none"
+          stroke="currentColor"
           viewBox="0 0 24 24"
         >
-          <path d="M7 4a1 1 0 011-1h8a1 1 0 011 1v2h3a2 2 0 012 2v13a2 2 0 01-2 2H4a2 2 0 01-2-2V8a2 2 0 012-2h3V4z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h18M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
         </svg>
       </button>
 
