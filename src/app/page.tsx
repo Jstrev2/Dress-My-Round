@@ -23,7 +23,7 @@ export default function Home() {
       <div className="w-full bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 py-3 px-4 shadow-md">
         <div className="max-w-7xl mx-auto text-center">
           <p className="text-white text-lg sm:text-xl font-bold italic">
-            ☀️ Fore-cast for Your Attire ⛅
+            ☀️ Fore-cast Your Attire ⛅
           </p>
         </div>
       </div>
