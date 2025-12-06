@@ -37,9 +37,9 @@ export default function HowToUsePage() {
                     <h3 className="font-semibold text-emerald-800 mb-2">🏌️ Golf Courses</h3>
                     <p className="text-sm text-emerald-700">Search by course name like "Pebble Beach" or "Augusta National"</p>
                   </div>
-                  <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-                    <h3 className="font-semibold text-blue-800 mb-2">🏙️ Cities</h3>
-                    <p className="text-sm text-blue-700">Enter city names like "Phoenix, AZ" or "Myrtle Beach, SC"</p>
+                  <div className="p-4 bg-teal-50 rounded-lg border border-teal-200">
+                    <h3 className="font-semibold text-teal-800 mb-2">🏙️ Cities</h3>
+                    <p className="text-sm text-teal-700">Enter city names like "Phoenix, AZ" or "Myrtle Beach, SC"</p>
                   </div>
                   <div className="p-4 bg-purple-50 rounded-lg border border-purple-200">
                     <h3 className="font-semibold text-purple-800 mb-2">📍 Zip Codes</h3>
@@ -58,7 +58,7 @@ export default function HowToUsePage() {
           {/* Step 2 */}
           <section className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8">
             <div className="flex items-start">
-              <div className="flex-shrink-0 w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center text-white font-bold text-2xl mr-6">
+              <div className="flex-shrink-0 w-16 h-16 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full flex items-center justify-center text-white font-bold text-2xl mr-6">
                 2
               </div>
               <div className="flex-1">
@@ -67,9 +67,9 @@ export default function HowToUsePage() {
                   Choose when you'll be playing to get weather forecasts tailored to your specific round timing.
                 </p>
                 <div className="grid md:grid-cols-2 gap-6 mb-6">
-                  <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-                    <h3 className="font-semibold text-blue-800 mb-3">📅 Date Selection</h3>
-                    <ul className="space-y-2 text-sm text-blue-700">
+                  <div className="p-4 bg-teal-50 rounded-lg border border-teal-200">
+                    <h3 className="font-semibold text-teal-800 mb-3">📅 Date Selection</h3>
+                    <ul className="space-y-2 text-sm text-teal-700">
                       <li>• Forecasts available up to 3 days in advance</li>
                       <li>• Today's weather updates every hour</li>
                       <li>• Future dates show detailed predictions</li>
@@ -84,8 +84,8 @@ export default function HowToUsePage() {
                     </ul>
                   </div>
                 </div>
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                  <p className="text-blue-800 text-sm">
+                <div className="bg-teal-50 border border-teal-200 rounded-lg p-4">
+                  <p className="text-teal-800 text-sm">
                     🌅 <strong>Morning vs Afternoon:</strong> Morning rounds (before 10 AM) are often cooler and may have dew, while afternoon rounds (after 2 PM) tend to be warmer with potential afternoon storms.
                   </p>
                 </div>
@@ -151,9 +151,9 @@ export default function HowToUsePage() {
                   Once you submit, you'll receive comprehensive weather data and personalized clothing recommendations.
                 </p>
                 <div className="grid md:grid-cols-2 gap-6 mb-6">
-                  <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-                    <h3 className="font-semibold text-blue-800 mb-3">🌤️ Weather Information</h3>
-                    <ul className="space-y-2 text-sm text-blue-700">
+                  <div className="p-4 bg-teal-50 rounded-lg border border-teal-200">
+                    <h3 className="font-semibold text-teal-800 mb-3">🌤️ Weather Information</h3>
+                    <ul className="space-y-2 text-sm text-teal-700">
                       <li>• Hourly conditions for your entire round</li>
                       <li>• Temperature range (min/max during play)</li>
                       <li>• Wind speed and direction</li>
@@ -227,9 +227,9 @@ export default function HowToUsePage() {
                     <li>• Local microclimates near water or mountains vary</li>
                   </ul>
                 </div>
-                <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                  <h3 className="font-semibold text-blue-800 mb-2">🧳 Packing Strategy</h3>
-                  <ul className="space-y-1 text-sm text-blue-700">
+                <div className="p-4 bg-teal-50 border border-teal-200 rounded-lg">
+                  <h3 className="font-semibold text-teal-800 mb-2">🧳 Packing Strategy</h3>
+                  <ul className="space-y-1 text-sm text-teal-700">
                     <li>• Pack one extra layer than recommended</li>
                     <li>• Bring rain gear if any chance of precipitation</li>
                     <li>• Always carry a hat and sunglasses</li>
