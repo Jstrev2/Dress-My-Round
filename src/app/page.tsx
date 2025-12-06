@@ -26,7 +26,7 @@ export default function Home() {
             🏌️‍♂️ Dress My Round
           </h1>
           <p className="text-sm text-gray-700 max-w-2xl mx-auto">
-            Get personalized golf attire recommendations based on real-time weather forecasts
+            Master every forecast in style—because looking good matters as much as your handicap
           </p>
         </div>
 
