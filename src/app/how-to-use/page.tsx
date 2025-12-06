@@ -266,7 +266,7 @@ export default function HowToUsePage() {
             </p>
             <a
               href="/"
-              className="inline-flex items-center px-8 py-4 bg-white text-emerald-600 font-bold text-lg rounded-xl hover:bg-emerald-50 transition-colors shadow-lg"
+              className="inline-flex items-center px-8 py-4 bg-white text-emerald-600 font-bold text-lg rounded-xl hover:bg-emerald-50 hover:shadow-xl transition-all duration-200 shadow-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50"
             >
               <span className="text-2xl mr-3">🏌️‍♂️</span>
               Get My Golf Forecast

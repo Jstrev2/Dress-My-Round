@@ -31,7 +31,7 @@ export default function BlogPage() {
             <a
               key={index}
               href={item.href}
-              className="flex flex-col items-center p-6 bg-white/60 backdrop-blur-sm rounded-xl border border-white/40 hover:shadow-lg transition-all duration-300 hover:scale-105"
+              className="flex flex-col items-center p-6 bg-white/60 backdrop-blur-sm rounded-xl border border-white/40 hover:shadow-lg transition-all duration-300 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50"
             >
               <div className="text-3xl mb-2">{item.emoji}</div>
               <span className="font-semibold text-gray-800">{item.title}</span>

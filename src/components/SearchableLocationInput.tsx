@@ -165,7 +165,7 @@ export default function SearchableLocationInput({ value, onChange, placeholder, 
                   role="option"
                   aria-selected={selectedIndex === index}
                   className={`w-full text-left px-4 py-3 rounded-md focus:outline-none transition-colors duration-150 ${
-                    selectedIndex === index ? 'bg-emerald-100 border-l-4 border-emerald-500' : 'hover:bg-gray-50 focus:bg-gray-50'
+                    selectedIndex === index ? 'bg-emerald-100 border-l-4 border-emerald-500' : 'hover:bg-gray-50 focus:bg-gray-50 cursor-pointer'
                   }`}
                   onClick={() => handleSuggestionClick(location)}
                 >

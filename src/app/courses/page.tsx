@@ -310,7 +310,7 @@ export default function CoursesPage() {
           </p>
           <a
             href="/"
-            className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold text-lg rounded-xl hover:from-emerald-700 hover:to-teal-700 transition-colors shadow-lg"
+            className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold text-lg rounded-xl hover:from-emerald-700 hover:to-teal-700 hover:shadow-xl transition-all duration-200 shadow-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50"
           >
             <span className="text-2xl mr-3">🏌️‍♂️</span>
             Check Weather for Your Course

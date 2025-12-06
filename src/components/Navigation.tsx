@@ -9,7 +9,7 @@ export default function Navigation() {
     <nav className="bg-white/80 backdrop-blur-md border-b border-emerald-100 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          <Link href="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
+          <Link href="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity duration-200">
             <span className="text-3xl">⛳</span>
             <span className="text-xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
               Dress My Round
@@ -18,16 +18,16 @@ export default function Navigation() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <Link href="/" className="text-gray-700 hover:text-emerald-600 transition-colors font-medium">
+            <Link href="/" className="text-gray-700 hover:text-emerald-600 transition-colors duration-200 font-medium">
               Home
             </Link>
-            <Link href="/weather-tips" className="text-gray-700 hover:text-emerald-600 transition-colors font-medium">
+            <Link href="/weather-tips" className="text-gray-700 hover:text-emerald-600 transition-colors duration-200 font-medium">
               Weather Tips
             </Link>
-            <Link href="/blog" className="text-gray-700 hover:text-emerald-600 transition-colors font-medium">
+            <Link href="/blog" className="text-gray-700 hover:text-emerald-600 transition-colors duration-200 font-medium">
               Golf Attire Guide
             </Link>
-            <Link href="/how-to-use" className="text-gray-700 hover:text-emerald-600 transition-colors font-medium">
+            <Link href="/how-to-use" className="text-gray-700 hover:text-emerald-600 transition-colors duration-200 font-medium">
               How to Use
             </Link>
           </div>
