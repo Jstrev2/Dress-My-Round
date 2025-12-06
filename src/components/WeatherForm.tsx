@@ -130,25 +130,25 @@ export default function WeatherForm({ onWeatherUpdate, onRecommendationUpdate }:
           <label htmlFor="location" className="text-sm font-semibold text-gray-700">
             Where are you playing?
           </label>
-          <div className="flex gap-2">
+          <div className="relative">
             <SearchableLocationInput
               value={location}
               onChange={setLocation}
               placeholder="City, zip code, or golf course"
-              className="flex-1 px-4 py-2.5 border-2 border-gray-300 rounded-lg text-base text-gray-900 bg-white focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50 focus:border-emerald-500 transition-all duration-200 placeholder-gray-500"
+              className="w-full px-4 py-2.5 pr-12 border-2 border-gray-300 rounded-lg text-base text-gray-900 bg-white focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50 focus:border-emerald-500 transition-all duration-200 placeholder-gray-500"
             />
             <button
               type="button"
               onClick={handleGeolocation}
               disabled={geoLoading}
-              className="px-3 py-2.5 border-2 border-gray-300 rounded-lg bg-white hover:bg-gray-50 focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 text-gray-600 hover:text-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50 rounded transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               title="Use current location"
             >
               {geoLoading ? (
                 <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-emerald-500" />
               ) : (
                 <svg
-                  className="w-5 h-5 text-gray-600"
+                  className="w-5 h-5"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
