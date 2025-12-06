@@ -16,7 +16,9 @@ export default function Navigation() {
                 Dress My Round
               </span>
             </div>
-            <span className="text-xs text-gray-500 ml-10">Fore-cast for Your Attire</span>
+            <span className="text-sm font-semibold italic ml-10 bg-gradient-to-r from-emerald-500 to-cyan-500 bg-clip-text text-transparent">
+              ☀️ Fore-cast for Your Attire ⛅
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
