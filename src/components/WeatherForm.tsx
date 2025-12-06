@@ -1,6 +1,7 @@
 ﻿'use client'
 import { FormEvent, useEffect, useState } from 'react'
 import SearchableLocationInput from './SearchableLocationInput'
+import DatePicker from './DatePicker'
 import { RoundWeatherData } from '@/lib/weather'
 
 interface Recommendations {
@@ -99,17 +100,14 @@ export default function WeatherForm({ onWeatherUpdate, onRecommendationUpdate }:
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div className="space-y-2">
-            <label htmlFor="date" className="text-sm font-semibold text-gray-700">
+            <label className="text-sm font-semibold text-gray-700">
               Date
             </label>
-            <input
-              type="date"
-              id="date"
+            <DatePicker
               value={date}
-              onChange={(event) => setDate(event.target.value)}
-              min={new Date().toISOString().split('T')[0]}
-              max={new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]}
-              className="w-full px-4 py-2.5 border-2 border-gray-300 rounded-lg text-base text-gray-900 bg-white focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50 focus:border-emerald-500 transition-all duration-200"
+              onChange={setDate}
+              minDate={new Date().toISOString().split('T')[0]}
+              maxDate={new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]}
             />
           </div>
 
