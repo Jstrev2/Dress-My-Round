@@ -1,0 +1,18 @@
+# Dress My Round - Search Engine Robot Instructions
+# Allow all search engines to crawl the site
+
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /.next/
+Disallow: /node_modules/
+
+# Specific search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Sitemap location
+Sitemap: https://dressmyround.com/sitemap.xml
