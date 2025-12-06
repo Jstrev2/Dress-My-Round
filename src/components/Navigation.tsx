@@ -10,7 +10,7 @@ export default function Navigation() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <Link href="/" className="flex items-center space-x-2 hover:opacity-80 transition-opacity">
-            <span className="text-2xl font-semibold text-emerald-600">DMR</span>
+            <span className="text-3xl">⛳</span>
             <span className="text-xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
               Dress My Round
             </span>
