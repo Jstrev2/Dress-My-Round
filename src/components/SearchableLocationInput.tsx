@@ -134,7 +134,7 @@ export default function SearchableLocationInput({ value, onChange, placeholder, 
         <div
           ref={dropdownRef}
           role="listbox"
-          className="absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-auto"
+          className="absolute z-50 w-full mt-2 bg-white border-2 border-gray-300 rounded-lg shadow-lg max-h-64 overflow-auto"
         >
           {loading && (
             <div className="px-4 py-3 text-sm text-gray-500">
@@ -164,13 +164,13 @@ export default function SearchableLocationInput({ value, onChange, placeholder, 
                   key={location.id}
                   role="option"
                   aria-selected={selectedIndex === index}
-                  className={`w-full text-left px-3 py-2 rounded-md focus:outline-none ${
-                    selectedIndex === index ? 'bg-blue-100' : 'hover:bg-gray-100 focus:bg-gray-100'
+                  className={`w-full text-left px-4 py-3 rounded-md focus:outline-none transition-colors duration-150 ${
+                    selectedIndex === index ? 'bg-emerald-100 border-l-4 border-emerald-500' : 'hover:bg-gray-50 focus:bg-gray-50'
                   }`}
                   onClick={() => handleSuggestionClick(location)}
                 >
-                  <div className="font-medium text-gray-900">{location.display}</div>
-                  <div className="text-sm text-gray-600">{location.type}</div>
+                  <div className="font-semibold text-gray-900">{location.display}</div>
+                  <div className="text-xs text-gray-500 mt-0.5">{location.type}</div>
                 </button>
               ))}
             </div>
@@ -178,9 +178,9 @@ export default function SearchableLocationInput({ value, onChange, placeholder, 
 
 
           {suggestions.length > 0 && (
-            <div className="border-t border-gray-100 px-4 py-2">
-              <div className="text-xs text-gray-500">
-                💡 Search by city, zip code, or address. Use arrow keys to navigate.
+            <div className="border-t border-gray-100 px-4 py-3 bg-gray-50">
+              <div className="text-xs text-gray-600 leading-relaxed">
+                <span className="font-semibold">💡 Tip:</span> Search by city, zip code, or address. Use arrow keys to navigate results.
               </div>
             </div>
           )}

@@ -30,15 +30,15 @@ export default function RecommendationDisplay({ weatherData, recommendations }: 
   }, [weatherData])
   if (!weatherData || !recommendations) {
     return (
-      <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-white/20 p-4">
-        <div className="flex items-center mb-4">
-          <span className="text-2xl mr-2">👕</span>
-          <h2 className="text-lg font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">Your Golf Outfit</h2>
+      <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-6 sm:p-8">
+        <div className="flex items-center mb-6">
+          <span className="text-3xl mr-3">👕</span>
+          <h2 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">Your Golf Outfit</h2>
         </div>
-        <div className="text-center py-8">
+        <div className="text-center py-12">
           <AnimatedGolfer />
-          <h3 className="text-base font-semibold text-gray-700 mb-1">Ready for Your Round?</h3>
-          <p className="text-gray-500 text-xs leading-relaxed">
+          <h3 className="text-lg font-semibold text-gray-800 mb-2 mt-4">Ready for Your Round?</h3>
+          <p className="text-gray-600 text-sm leading-relaxed max-w-md mx-auto">
             Enter your location and tee time to get personalized outfit recommendations
           </p>
         </div>
@@ -47,10 +47,10 @@ export default function RecommendationDisplay({ weatherData, recommendations }: 
   }
 
   return (
-    <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-white/20 p-4">
-      <div className="flex items-center mb-4">
-        <span className="text-2xl mr-2">👕</span>
-        <h2 className="text-lg font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">Your Golf Outfit</h2>
+    <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 p-6 sm:p-8">
+      <div className="flex items-center mb-6">
+        <span className="text-3xl mr-3">👕</span>
+        <h2 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">Your Golf Outfit</h2>
       </div>
 
       {/* Outfit Recommendations */}
@@ -77,16 +77,16 @@ export default function RecommendationDisplay({ weatherData, recommendations }: 
       </div>
 
       {/* Golf Tips */}
-      <div className="mt-3 p-3 bg-gradient-to-br from-emerald-50 to-green-50 rounded-lg border border-emerald-200 shadow">
-        <div className="flex items-center mb-2">
-          <div className="text-xl mr-2">⛳</div>
-          <h4 className="font-bold text-emerald-800 text-sm">Pro Tips</h4>
+      <div className="mt-6 p-4 bg-gradient-to-br from-emerald-50 to-green-50 rounded-xl border border-emerald-200 shadow-md">
+        <div className="flex items-center mb-3">
+          <div className="text-2xl mr-3">⛳</div>
+          <h4 className="font-semibold text-emerald-900 text-base">Pro Golf Tips</h4>
         </div>
-        <div className="space-y-1">
+        <div className="space-y-2.5">
           {getGolfTips(weatherData).map((tip, index) => (
-            <div key={index} className="flex items-start p-1.5 text-emerald-700 text-xs">
-              <span className="font-bold mr-1.5">•</span>
-              <span>{tip}</span>
+            <div key={index} className="flex items-start gap-3 text-emerald-700 text-sm">
+              <span className="font-bold text-emerald-600 mt-0.5">•</span>
+              <span className="leading-relaxed">{tip}</span>
             </div>
           ))}
         </div>
@@ -104,16 +104,16 @@ export default function RecommendationDisplay({ weatherData, recommendations }: 
 
 function OutfitSection({ title, emoji, items }: { title: string, emoji: string, items: string[] }) {
   return (
-    <div className="bg-gradient-to-br from-white/50 to-white/80 rounded-lg p-3 border border-white/30 shadow backdrop-blur-sm">
-      <h4 className="font-bold text-sm mb-3 flex items-center gap-2 text-gray-800">
-        <span className="text-xl">{emoji}</span>
-        {title}
+    <div className="bg-gradient-to-br from-white/60 to-white/90 rounded-xl p-4 border border-white/40 shadow-md backdrop-blur-sm hover:shadow-lg transition-shadow duration-200">
+      <h4 className="font-semibold text-base mb-4 flex items-center gap-3 text-gray-900">
+        <span className="text-2xl">{emoji}</span>
+        <span>{title}</span>
       </h4>
-      <ul className="space-y-2">
+      <ul className="space-y-2.5">
         {items.map((item, index) => (
-          <li key={index} className="flex items-center gap-2 text-sm text-gray-700 ml-2">
-            <span className="text-xs">⚪</span>
-            <span>{item}</span>
+          <li key={index} className="flex items-start gap-3 text-sm text-gray-700">
+            <span className="text-emerald-600 font-bold mt-0.5">•</span>
+            <span className="leading-relaxed">{item}</span>
           </li>
         ))}
       </ul>

@@ -93,7 +93,7 @@ export default function WeatherForm({ onWeatherUpdate, onRecommendationUpdate }:
             value={location}
             onChange={setLocation}
             placeholder="City, zip code, or golf course"
-            className="w-full px-3 py-2 border-2 border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200 placeholder-gray-400"
+            className="w-full px-4 py-2.5 border-2 border-gray-300 rounded-lg text-base text-gray-900 bg-white focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50 focus:border-emerald-500 transition-all duration-200 placeholder-gray-500"
           />
         </div>
 
@@ -109,7 +109,7 @@ export default function WeatherForm({ onWeatherUpdate, onRecommendationUpdate }:
               onChange={(event) => setDate(event.target.value)}
               min={new Date().toISOString().split('T')[0]}
               max={new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]}
-              className="w-full px-3 py-2.5 border-2 border-gray-300 rounded-lg text-sm text-gray-900 bg-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200"
+              className="w-full px-4 py-2.5 border-2 border-gray-300 rounded-lg text-base text-gray-900 bg-white focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50 focus:border-emerald-500 transition-all duration-200"
             />
           </div>
 
@@ -121,7 +121,7 @@ export default function WeatherForm({ onWeatherUpdate, onRecommendationUpdate }:
               id="time"
               value={time}
               onChange={(event) => setTime(event.target.value)}
-              className="w-full px-3 py-2.5 border-2 border-gray-300 rounded-lg text-sm text-gray-900 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200 bg-white"
+              className="w-full px-4 py-2.5 border-2 border-gray-300 rounded-lg text-base text-gray-900 focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50 focus:border-emerald-500 transition-all duration-200 bg-white"
             >
               <option value="05:00">5:00 AM</option>
               <option value="05:30">5:30 AM</option>
@@ -229,7 +229,7 @@ export default function WeatherForm({ onWeatherUpdate, onRecommendationUpdate }:
         <button
           type="submit"
           disabled={loading || !location.trim()}
-          className="w-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-2 px-4 rounded-lg text-sm font-semibold hover:from-emerald-700 hover:to-teal-700 focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow"
+          className="w-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white py-3 px-4 rounded-lg text-base font-semibold hover:from-emerald-700 hover:to-teal-700 focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl active:scale-95"
         >
           {loading ? (
             <div className="flex items-center justify-center">
@@ -242,15 +242,24 @@ export default function WeatherForm({ onWeatherUpdate, onRecommendationUpdate }:
         </button>
       </form>
 
-      <div className="mt-3 p-2 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-lg border border-blue-200">
-        <div className="text-xs text-blue-700 space-y-0.5">
-          <p className="flex items-center font-medium">
-            Pro Tips
+      <div className="mt-4 p-4 bg-emerald-50 rounded-xl border border-emerald-200 shadow-sm">
+        <div className="space-y-2">
+          <p className="flex items-center font-semibold text-emerald-900 text-sm">
+            💡 Pro Tips
           </p>
-          <ul className="ml-5 space-y-0.5 text-blue-600 text-xs list-disc">
-            <li>Forecasts available up to 3 days in advance</li>
-            <li>Accounts for your full round duration</li>
-            <li>Weather conditions may change during play</li>
+          <ul className="space-y-2 text-emerald-700 text-sm">
+            <li className="flex gap-2">
+              <span className="text-emerald-600 font-semibold">•</span>
+              <span>Forecasts available up to 3 days in advance</span>
+            </li>
+            <li className="flex gap-2">
+              <span className="text-emerald-600 font-semibold">•</span>
+              <span>Accounts for your full round duration</span>
+            </li>
+            <li className="flex gap-2">
+              <span className="text-emerald-600 font-semibold">•</span>
+              <span>Weather conditions may change during play</span>
+            </li>
           </ul>
         </div>
       </div>
