@@ -1,5 +1,6 @@
 ﻿'use client'
 import { FormEvent, useEffect, useState } from 'react'
+import { Locate, Loader } from 'lucide-react'
 import SearchableLocationInput from './SearchableLocationInput'
 import DatePicker from './DatePicker'
 import { RoundWeatherData } from '@/lib/weather'
@@ -145,17 +146,9 @@ export default function WeatherForm({ onWeatherUpdate, onRecommendationUpdate }:
               title="Use current location"
             >
               {geoLoading ? (
-                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-emerald-500" />
+                <Loader className="w-5 h-5 text-emerald-500 animate-spin" />
               ) : (
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
+                <Locate className="w-5 h-5" />
               )}
             </button>
           </div>
