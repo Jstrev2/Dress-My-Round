@@ -39,33 +39,63 @@ const POPULAR_LOCATIONS: Location[] = [
   },
   {
     id: '6',
+    display: 'Oceanside, CA',
+    type: 'Golf destination',
+    searchQuery: 'Oceanside, CA'
+  },
+  {
+    id: '7',
     display: 'New York, NY',
     type: 'City',
     searchQuery: 'New York, NY'
   },
   {
-    id: '7',
+    id: '8',
     display: 'Los Angeles, CA',
     type: 'City',
     searchQuery: 'Los Angeles, CA'
   },
   {
-    id: '8',
+    id: '9',
+    display: 'San Diego, CA',
+    type: 'City',
+    searchQuery: 'San Diego, CA'
+  },
+  {
+    id: '10',
     display: 'Chicago, IL',
     type: 'City',
     searchQuery: 'Chicago, IL'
   },
   {
-    id: '9',
+    id: '11',
     display: 'Miami, FL',
     type: 'City',
     searchQuery: 'Miami, FL'
   },
   {
-    id: '10',
+    id: '12',
     display: 'Las Vegas, NV',
     type: 'City',
     searchQuery: 'Las Vegas, NV'
+  },
+  {
+    id: '13',
+    display: 'Phoenix, AZ',
+    type: 'City',
+    searchQuery: 'Phoenix, AZ'
+  },
+  {
+    id: '14',
+    display: 'Denver, CO',
+    type: 'City',
+    searchQuery: 'Denver, CO'
+  },
+  {
+    id: '15',
+    display: 'Seattle, WA',
+    type: 'City',
+    searchQuery: 'Seattle, WA'
   }
 ]
 
@@ -95,7 +125,8 @@ export function searchLocations(query: string): Promise<Location[]> {
           '78701': 'Austin, TX',
           '02101': 'Boston, MA',
           '98101': 'Seattle, WA',
-          '85001': 'Phoenix, AZ'
+          '85001': 'Phoenix, AZ',
+          '92054': 'Oceanside, CA'
         }
 
         const cityState = zipToCity[query.substring(0, 5)] || query
@@ -107,23 +138,32 @@ export function searchLocations(query: string): Promise<Location[]> {
           searchQuery: query
         })
       } else {
-        // Regular text search - create location suggestion
-        results.push({
-          id: `user-${Date.now()}`,
-          display: query,
-          type: 'Location',
-          searchQuery: query
-        })
+        // Filter existing locations - prioritize by match quality
+        const lowerQuery = query.toLowerCase()
+
+        const exactMatches = POPULAR_LOCATIONS.filter(location =>
+          location.display.toLowerCase().startsWith(lowerQuery)
+        )
+
+        const partialMatches = POPULAR_LOCATIONS.filter(location =>
+          !location.display.toLowerCase().startsWith(lowerQuery) &&
+          location.display.toLowerCase().includes(lowerQuery)
+        )
+
+        // Add matches in priority order
+        results.push(...exactMatches)
+        results.push(...partialMatches)
+
+        // If no matches found, offer the user's input as a suggestion
+        if (results.length === 0) {
+          results.push({
+            id: `user-${Date.now()}`,
+            display: query,
+            type: 'Location',
+            searchQuery: query
+          })
+        }
       }
-
-      // Filter existing locations that match
-      const filtered = POPULAR_LOCATIONS.filter(location =>
-        location.display.toLowerCase().includes(query.toLowerCase()) ||
-        location.searchQuery.toLowerCase().includes(query.toLowerCase())
-      ).slice(0, 3) // Limit popular results
-
-      // Add filtered results
-      results.push(...filtered)
 
       resolve(results.slice(0, 6)) // Limit total results
     }, 150)
