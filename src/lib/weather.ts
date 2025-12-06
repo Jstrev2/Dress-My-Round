@@ -22,7 +22,7 @@ export interface RoundWeatherData {
   weatherChanges: boolean
 }
 
-const WEATHER_API_KEY = process.env.WEATHER_API_KEY
+const WEATHER_API_KEY = process.env.NEXT_PUBLIC_WEATHER_API_KEY
 
 // Helper function to convert zip code to city,state format using WeatherAPI's search
 async function resolveZipCode(zipCode: string): Promise<string> {
