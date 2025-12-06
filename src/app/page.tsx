@@ -19,6 +19,15 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50">
+      {/* Tagline Banner */}
+      <div className="w-full bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 py-3 px-4 shadow-md">
+        <div className="max-w-7xl mx-auto text-center">
+          <p className="text-white text-lg sm:text-xl font-bold italic">
+            ☀️ Fore-cast for Your Attire ⛅
+          </p>
+        </div>
+      </div>
+
       <div className="w-full px-3 sm:px-4 py-2">
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
