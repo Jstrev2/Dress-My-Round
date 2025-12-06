@@ -76,8 +76,6 @@ export default function WeatherForm({ onWeatherUpdate, onRecommendationUpdate }:
     }
   }
 
-  const showSampleWarning = latestSource === 'mock'
-
   return (
     <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-white/20 p-4 hover:shadow-xl transition-all duration-300">
       <div className="flex items-center mb-4">
@@ -255,13 +253,6 @@ export default function WeatherForm({ onWeatherUpdate, onRecommendationUpdate }:
             <li>Accounts for your full round duration</li>
             <li>Weather conditions may change during play</li>
           </ul>
-          {showSampleWarning && (
-            <div className="mt-3 p-2 bg-amber-100 border border-amber-300 rounded-lg">
-              <p className="text-amber-800 text-xs">
-                Using sample weather data. Connect your WeatherAPI key for live forecasts.
-              </p>
-            </div>
-          )}
         </div>
       </div>
     </div>
