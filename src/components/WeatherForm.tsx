@@ -163,7 +163,7 @@ export default function WeatherForm({ onWeatherUpdate, onRecommendationUpdate }:
                 Holes
               </label>
               <div className="flex gap-2">
-                <label className={`flex-1 flex items-center justify-center py-1 px-2 rounded-lg border-2 cursor-pointer transition-all duration-200 ${roundType === 'full' ? 'border-emerald-500 bg-emerald-50 text-emerald-700' : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'}`}>
+                <label className={`flex-1 flex items-center justify-center py-1 px-2 rounded-lg border-2 cursor-pointer transition-all duration-200 ${roundType === 'full' ? 'border-emerald-500 bg-emerald-50 text-emerald-700' : 'border-gray-300 bg-white text-gray-800 hover:border-gray-400 hover:bg-gray-50'}`}>
                   <input
                     type="radio"
                     name="roundType"
@@ -174,7 +174,7 @@ export default function WeatherForm({ onWeatherUpdate, onRecommendationUpdate }:
                   />
                   <span className="font-bold text-sm">18 Holes</span>
                 </label>
-                <label className={`flex-1 flex items-center justify-center py-1 px-2 rounded-lg border-2 cursor-pointer transition-all duration-200 ${roundType === 'half' ? 'border-emerald-500 bg-emerald-50 text-emerald-700' : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'}`}>
+                <label className={`flex-1 flex items-center justify-center py-1 px-2 rounded-lg border-2 cursor-pointer transition-all duration-200 ${roundType === 'half' ? 'border-emerald-500 bg-emerald-50 text-emerald-700' : 'border-gray-300 bg-white text-gray-800 hover:border-gray-400 hover:bg-gray-50'}`}>
                   <input
                     type="radio"
                     name="roundType"
@@ -193,7 +193,7 @@ export default function WeatherForm({ onWeatherUpdate, onRecommendationUpdate }:
                 Play Style
               </label>
               <div className="flex gap-2">
-                <label className={`flex-1 flex items-center justify-center gap-1 py-1 px-2 rounded-lg border-2 cursor-pointer transition-all duration-200 ${walkingMode === 'walking' ? 'border-emerald-500 bg-emerald-50 text-emerald-700' : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'}`}>
+                <label className={`flex-1 flex items-center justify-center gap-1 py-1 px-2 rounded-lg border-2 cursor-pointer transition-all duration-200 ${walkingMode === 'walking' ? 'border-emerald-500 bg-emerald-50 text-emerald-700' : 'border-gray-300 bg-white text-gray-800 hover:border-gray-400 hover:bg-gray-50'}`}>
                   <input
                     type="radio"
                     name="walkingMode"
@@ -204,7 +204,7 @@ export default function WeatherForm({ onWeatherUpdate, onRecommendationUpdate }:
                   />
                   <span className="font-medium text-sm">Walking</span>
                 </label>
-                <label className={`flex-1 flex items-center justify-center gap-1 py-1 px-2 rounded-lg border-2 cursor-pointer transition-all duration-200 ${walkingMode === 'riding' ? 'border-emerald-500 bg-emerald-50 text-emerald-700' : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'}`}>
+                <label className={`flex-1 flex items-center justify-center gap-1 py-1 px-2 rounded-lg border-2 cursor-pointer transition-all duration-200 ${walkingMode === 'riding' ? 'border-emerald-500 bg-emerald-50 text-emerald-700' : 'border-gray-300 bg-white text-gray-800 hover:border-gray-400 hover:bg-gray-50'}`}>
                   <input
                     type="radio"
                     name="walkingMode"
