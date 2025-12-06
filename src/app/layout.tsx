@@ -70,7 +70,7 @@ export default function RootLayout({
       <head>
         <link rel="canonical" href={SITE_URL} />
         <meta name="theme-color" content="#059669" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         {/* TODO: Replace with actual Google Search Console verification code */}
         <meta name="google-site-verification" content={process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || 'your-google-verification-code'} />
