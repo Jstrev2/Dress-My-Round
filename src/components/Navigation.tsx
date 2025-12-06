@@ -11,14 +11,9 @@ export default function Navigation() {
         <div className="flex justify-between items-center h-16">
           <Link href="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
             <span className="text-3xl">⛳</span>
-            <div className="flex flex-col">
-              <span className="text-xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
-                Dress My Round
-              </span>
-              <span className="text-xs font-semibold italic text-emerald-500">
-                ☀️ Fore-cast for Your Attire ⛅
-              </span>
-            </div>
+            <span className="text-xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
+              Dress My Round
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
