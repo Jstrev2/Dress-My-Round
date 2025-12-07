@@ -108,6 +108,14 @@ body {
   }
 }
 
+/* Grass texture background */
+.bg-grass-texture {
+  background-image: url('/grass-pattern.svg');
+  background-size: 200px 100px;
+  background-repeat: repeat;
+  background-attachment: fixed;
+}
+
 /* Print styles */
 @media print {
   body {
