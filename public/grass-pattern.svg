@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100" preserveAspectRatio="none">
+  <defs>
+    <pattern id="grassPattern" x="0" y="0" width="200" height="100" patternUnits="userSpaceOnUse">
+      <!-- Background -->
+      <rect width="200" height="100" fill="#d4f1de"/>
+
+      <!-- Back layer - darker grass for depth -->
+      <path d="M 10 100 Q 10 70 12 50 Q 13 40 11 30" stroke="#2d7a4a" stroke-width="1.5" fill="none" opacity="0.6"/>
+      <path d="M 20 100 Q 20 65 22 45 Q 23 35 21 25" stroke="#3a9d5d" stroke-width="1.5" fill="none" opacity="0.5"/>
+      <path d="M 28 100 Q 28 68 30 48 Q 31 38 29 28" stroke="#2d7a4a" stroke-width="1.2" fill="none" opacity="0.6"/>
+      <path d="M 35 100 Q 35 72 37 52 Q 38 42 36 32" stroke="#3a9d5d" stroke-width="1.4" fill="none" opacity="0.55"/>
+      <path d="M 42 100 Q 42 70 44 50 Q 45 40 43 30" stroke="#2d7a4a" stroke-width="1.3" fill="none" opacity="0.65"/>
+      <path d="M 50 100 Q 50 68 52 48 Q 53 38 51 28" stroke="#3a9d5d" stroke-width="1.5" fill="none" opacity="0.5"/>
+      <path d="M 58 100 Q 58 72 60 52 Q 61 42 59 32" stroke="#2d7a4a" stroke-width="1.2" fill="none" opacity="0.6"/>
+      <path d="M 65 100 Q 65 70 67 50 Q 68 40 66 30" stroke="#3a9d5d" stroke-width="1.4" fill="none" opacity="0.55"/>
+      <path d="M 72 100 Q 72 68 74 48 Q 75 38 73 28" stroke="#2d7a4a" stroke-width="1.3" fill="none" opacity="0.65"/>
+      <path d="M 80 100 Q 80 72 82 52 Q 83 42 81 32" stroke="#3a9d5d" stroke-width="1.5" fill="none" opacity="0.5"/>
+      <path d="M 88 100 Q 88 70 90 50 Q 91 40 89 30" stroke="#2d7a4a" stroke-width="1.2" fill="none" opacity="0.6"/>
+      <path d="M 96 100 Q 96 68 98 48 Q 99 38 97 28" stroke="#3a9d5d" stroke-width="1.4" fill="none" opacity="0.55"/>
+      <path d="M 104 100 Q 104 72 106 52 Q 107 42 105 32" stroke="#2d7a4a" stroke-width="1.3" fill="none" opacity="0.65"/>
+      <path d="M 112 100 Q 112 70 114 50 Q 115 40 113 30" stroke="#3a9d5d" stroke-width="1.5" fill="none" opacity="0.5"/>
+      <path d="M 120 100 Q 120 68 122 48 Q 123 38 121 28" stroke="#2d7a4a" stroke-width="1.2" fill="none" opacity="0.6"/>
+      <path d="M 128 100 Q 128 72 130 52 Q 131 42 129 32" stroke="#3a9d5d" stroke-width="1.4" fill="none" opacity="0.55"/>
+      <path d="M 136 100 Q 136 70 138 50 Q 139 40 137 30" stroke="#2d7a4a" stroke-width="1.3" fill="none" opacity="0.65"/>
+      <path d="M 144 100 Q 144 68 146 48 Q 147 38 145 28" stroke="#3a9d5d" stroke-width="1.5" fill="none" opacity="0.5"/>
+      <path d="M 152 100 Q 152 72 154 52 Q 155 42 153 32" stroke="#2d7a4a" stroke-width="1.2" fill="none" opacity="0.6"/>
+      <path d="M 160 100 Q 160 70 162 50 Q 163 40 161 30" stroke="#3a9d5d" stroke-width="1.4" fill="none" opacity="0.55"/>
+      <path d="M 168 100 Q 168 68 170 48 Q 171 38 169 28" stroke="#2d7a4a" stroke-width="1.3" fill="none" opacity="0.65"/>
+      <path d="M 176 100 Q 176 72 178 52 Q 179 42 177 32" stroke="#3a9d5d" stroke-width="1.5" fill="none" opacity="0.5"/>
+      <path d="M 184 100 Q 184 70 186 50 Q 187 40 185 30" stroke="#2d7a4a" stroke-width="1.2" fill="none" opacity="0.6"/>
+      <path d="M 192 100 Q 192 68 194 48 Q 195 38 193 28" stroke="#3a9d5d" stroke-width="1.4" fill="none" opacity="0.55"/>
+
+      <!-- Middle layer - medium green -->
+      <path d="M 15 100 Q 15 75 17 55 Q 18 45 16 35" stroke="#4ade80" stroke-width="1.8" fill="none" opacity="0.75"/>
+      <path d="M 25 100 Q 25 72 27 52 Q 28 42 26 32" stroke="#2ecc71" stroke-width="1.6" fill="none" opacity="0.7"/>
+      <path d="M 38 100 Q 38 76 40 56 Q 41 46 39 36" stroke="#4ade80" stroke-width="1.7" fill="none" opacity="0.75"/>
+      <path d="M 48 100 Q 48 74 50 54 Q 51 44 49 34" stroke="#2ecc71" stroke-width="1.8" fill="none" opacity="0.7"/>
+      <path d="M 62 100 Q 62 76 64 56 Q 65 46 63 36" stroke="#4ade80" stroke-width="1.6" fill="none" opacity="0.75"/>
+      <path d="M 75 100 Q 75 74 77 54 Q 78 44 76 34" stroke="#2ecc71" stroke-width="1.7" fill="none" opacity="0.7"/>
+      <path d="M 88 100 Q 88 76 90 56 Q 91 46 89 36" stroke="#4ade80" stroke-width="1.8" fill="none" opacity="0.75"/>
+      <path d="M 100 100 Q 100 72 102 52 Q 103 42 101 32" stroke="#2ecc71" stroke-width="1.6" fill="none" opacity="0.7"/>
+      <path d="M 115 100 Q 115 76 117 56 Q 118 46 116 36" stroke="#4ade80" stroke-width="1.7" fill="none" opacity="0.75"/>
+      <path d="M 128 100 Q 128 74 130 54 Q 131 44 129 34" stroke="#2ecc71" stroke-width="1.8" fill="none" opacity="0.7"/>
+      <path d="M 142 100 Q 142 76 144 56 Q 145 46 143 36" stroke="#4ade80" stroke-width="1.6" fill="none" opacity="0.75"/>
+      <path d="M 155 100 Q 155 74 157 54 Q 158 44 156 34" stroke="#2ecc71" stroke-width="1.7" fill="none" opacity="0.7"/>
+      <path d="M 169 100 Q 169 76 171 56 Q 172 46 170 36" stroke="#4ade80" stroke-width="1.8" fill="none" opacity="0.75"/>
+      <path d="M 182 100 Q 182 72 184 52 Q 185 42 183 32" stroke="#2ecc71" stroke-width="1.6" fill="none" opacity="0.7"/>
+
+      <!-- Front layer - bright green grass blades -->
+      <path d="M 8 100 Q 8 78 10 60 Q 11 50 9 40" stroke="#22c55e" stroke-width="2.2" fill="none" opacity="0.85" stroke-linecap="round"/>
+      <path d="M 18 100 Q 18 76 20 58 Q 21 48 19 38" stroke="#16a34a" stroke-width="2" fill="none" opacity="0.8" stroke-linecap="round"/>
+      <path d="M 32 100 Q 32 78 34 60 Q 35 50 33 40" stroke="#22c55e" stroke-width="2.2" fill="none" opacity="0.85" stroke-linecap="round"/>
+      <path d="M 45 100 Q 45 76 47 58 Q 48 48 46 38" stroke="#16a34a" stroke-width="2" fill="none" opacity="0.8" stroke-linecap="round"/>
+      <path d="M 58 100 Q 58 78 60 60 Q 61 50 59 40" stroke="#22c55e" stroke-width="2.2" fill="none" opacity="0.85" stroke-linecap="round"/>
+      <path d="M 72 100 Q 72 76 74 58 Q 75 48 73 38" stroke="#16a34a" stroke-width="2" fill="none" opacity="0.8" stroke-linecap="round"/>
+      <path d="M 85 100 Q 85 78 87 60 Q 88 50 86 40" stroke="#22c55e" stroke-width="2.2" fill="none" opacity="0.85" stroke-linecap="round"/>
+      <path d="M 98 100 Q 98 76 100 58 Q 101 48 99 38" stroke="#16a34a" stroke-width="2" fill="none" opacity="0.8" stroke-linecap="round"/>
+      <path d="M 112 100 Q 112 78 114 60 Q 115 50 113 40" stroke="#22c55e" stroke-width="2.2" fill="none" opacity="0.85" stroke-linecap="round"/>
+      <path d="M 125 100 Q 125 76 127 58 Q 128 48 126 38" stroke="#16a34a" stroke-width="2" fill="none" opacity="0.8" stroke-linecap="round"/>
+      <path d="M 139 100 Q 139 78 141 60 Q 142 50 140 40" stroke="#22c55e" stroke-width="2.2" fill="none" opacity="0.85" stroke-linecap="round"/>
+      <path d="M 152 100 Q 152 76 154 58 Q 155 48 153 38" stroke="#16a34a" stroke-width="2" fill="none" opacity="0.8" stroke-linecap="round"/>
+      <path d="M 165 100 Q 165 78 167 60 Q 168 50 166 40" stroke="#22c55e" stroke-width="2.2" fill="none" opacity="0.85" stroke-linecap="round"/>
+      <path d="M 179 100 Q 179 76 181 58 Q 182 48 180 38" stroke="#16a34a" stroke-width="2" fill="none" opacity="0.8" stroke-linecap="round"/>
+
+      <!-- Extra bright highlights -->
+      <path d="M 12 100 Q 12 80 14 62 Q 15 52 13 42" stroke="#84cc16" stroke-width="1.5" fill="none" opacity="0.6" stroke-linecap="round"/>
+      <path d="M 55 100 Q 55 80 57 62 Q 58 52 56 42" stroke="#84cc16" stroke-width="1.5" fill="none" opacity="0.6" stroke-linecap="round"/>
+      <path d="M 95 100 Q 95 80 97 62 Q 98 52 96 42" stroke="#84cc16" stroke-width="1.5" fill="none" opacity="0.6" stroke-linecap="round"/>
+      <path d="M 145 100 Q 145 80 147 62 Q 148 52 146 42" stroke="#84cc16" stroke-width="1.5" fill="none" opacity="0.6" stroke-linecap="round"/>
+      <path d="M 190 100 Q 190 80 192 62 Q 193 52 191 42" stroke="#84cc16" stroke-width="1.5" fill="none" opacity="0.6" stroke-linecap="round"/>
+    </pattern>
+  </defs>
+
+  <rect width="200" height="100" fill="url(#grassPattern)"/>
+</svg>
