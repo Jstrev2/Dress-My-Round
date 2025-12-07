@@ -108,6 +108,59 @@ body {
   }
 }
 
+/* Grass texture background */
+.bg-grass-texture {
+  background-color: #dcf5e3;
+  background-image:
+    /* Top layer - fine grass blades */
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 2px,
+      rgba(34, 197, 94, 0.03) 2px,
+      rgba(34, 197, 94, 0.03) 4px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 3px,
+      rgba(59, 130, 246, 0.02) 3px,
+      rgba(59, 130, 246, 0.02) 6px
+    ),
+    /* Mid layer - medium grass */
+    repeating-linear-gradient(
+      85deg,
+      transparent,
+      transparent 1px,
+      rgba(34, 197, 94, 0.04) 1px,
+      rgba(34, 197, 94, 0.04) 3px
+    ),
+    repeating-linear-gradient(
+      95deg,
+      transparent,
+      transparent 1px,
+      rgba(16, 185, 129, 0.03) 1px,
+      rgba(16, 185, 129, 0.03) 3px
+    ),
+    /* Bottom layer - depth and texture */
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 4px,
+      rgba(5, 150, 105, 0.02) 4px,
+      rgba(5, 150, 105, 0.02) 8px
+    ),
+    /* Subtle noise pattern */
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 2px,
+      rgba(34, 197, 94, 0.01) 2px,
+      rgba(34, 197, 94, 0.01) 4px
+    );
+  background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
+}
+
 /* Print styles */
 @media print {
   body {
