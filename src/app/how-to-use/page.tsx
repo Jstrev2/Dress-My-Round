@@ -12,7 +12,7 @@ export default function HowToUsePage() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
         {/* Header */}
         <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 bg-clip-text text-transparent mb-6">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-emerald-700 drop-shadow-lg mb-6">
             How to Use Dress My Round
           </h1>
           <p className="text-xl md:text-2xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
@@ -179,11 +179,11 @@ export default function HowToUsePage() {
           </section>
 
           {/* Understanding Recommendations */}
-          <section className="bg-gradient-to-r from-emerald-600 to-teal-600 rounded-2xl shadow-xl text-white p-8">
-            <h2 className="text-3xl font-bold mb-8 flex items-center">
+          <section className="bg-emerald-700 rounded-2xl shadow-xl text-white p-8">
+            <div className="flex items-center mb-8">
               <span className="text-4xl mr-4">🧠</span>
-              Understanding Your Recommendations
-            </h2>
+              <h2 className="text-3xl font-bold">Understanding Your Recommendations</h2>
+            </div>
 
             <div className="grid md:grid-cols-2 gap-8">
               <div>
@@ -212,10 +212,10 @@ export default function HowToUsePage() {
 
           {/* Pro Tips */}
           <section className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8">
-            <h2 className="text-3xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent mb-8 flex items-center">
+            <div className="flex items-center mb-8">
               <span className="text-4xl mr-4">💡</span>
-              Pro Tips for Best Results
-            </h2>
+              <h2 className="text-3xl font-bold text-emerald-700 drop-shadow-lg">Pro Tips for Best Results</h2>
+            </div>
 
             <div className="grid md:grid-cols-2 gap-8">
               <div className="space-y-4">

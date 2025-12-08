@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function BlogPage() {
   return (
-    <div className="min-h-screen bg-grass-texture">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
         {/* Header */}
         <div className="text-center mb-16">
@@ -42,10 +42,10 @@ export default function BlogPage() {
         <div className="space-y-16">
           {/* Seasonal Golf Clothing Guide */}
           <section id="seasonal" className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8">
-            <h2 className="text-3xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent mb-8 flex items-center">
+            <div className="flex items-center mb-8">
               <span className="text-4xl mr-4">🌡️</span>
-              Seasonal Golf Clothing Guide
-            </h2>
+              <h2 className="text-3xl font-bold text-emerald-700 drop-shadow-lg">Seasonal Golf Clothing Guide</h2>
+            </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               {/* Spring */}
@@ -112,10 +112,10 @@ export default function BlogPage() {
 
           {/* Weather-Specific Gear */}
           <section id="weather" className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8">
-            <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent mb-8 flex items-center">
+            <div className="flex items-center mb-8">
               <span className="text-4xl mr-4">☔</span>
-              Weather-Specific Golf Gear
-            </h2>
+              <h2 className="text-3xl font-bold text-emerald-700 drop-shadow-lg">Weather-Specific Golf Gear</h2>
+            </div>
 
             <div className="grid md:grid-cols-3 gap-8">
               {/* Rain Gear */}
@@ -221,10 +221,10 @@ export default function BlogPage() {
 
           {/* Golf Course Dress Codes */}
           <section id="dress-codes" className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8">
-            <h2 className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-8 flex items-center">
+            <div className="flex items-center mb-8">
               <span className="text-4xl mr-4">👔</span>
-              Golf Course Dress Codes
-            </h2>
+              <h2 className="text-3xl font-bold text-emerald-700 drop-shadow-lg">Golf Course Dress Codes</h2>
+            </div>
 
             <div className="grid md:grid-cols-3 gap-8">
               {/* Casual */}
@@ -276,10 +276,10 @@ export default function BlogPage() {
 
           {/* Brand Recommendations */}
           <section id="brands" className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8">
-            <h2 className="text-3xl font-bold bg-gradient-to-r from-red-600 to-orange-600 bg-clip-text text-transparent mb-8 flex items-center">
+            <div className="flex items-center mb-8">
               <span className="text-4xl mr-4">🛍️</span>
-              Recommended Golf Clothing Brands
-            </h2>
+              <h2 className="text-3xl font-bold text-emerald-700 drop-shadow-lg">Recommended Golf Clothing Brands</h2>
+            </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               {/* Premium */}

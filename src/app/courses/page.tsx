@@ -55,7 +55,7 @@ export default function CoursesPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
         {/* Header */}
         <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 bg-clip-text text-transparent mb-6">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-emerald-700 drop-shadow-lg mb-6">
             Golf Courses & Climate Guide
           </h1>
           <p className="text-xl md:text-2xl text-gray-700 max-w-4xl mx-auto leading-relaxed">
@@ -68,7 +68,7 @@ export default function CoursesPage() {
           {golfDestinations.map((region, index) => (
             <section key={index} className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8">
               <div className="mb-8">
-                <h2 className="text-3xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent mb-4">
+                <h2 className="text-3xl font-bold text-emerald-700 drop-shadow-lg mb-4">
                   {region.region}
                 </h2>
                 <div className="grid md:grid-cols-3 gap-4">
@@ -114,10 +114,10 @@ export default function CoursesPage() {
 
         {/* Seasonal Clothing Guide */}
         <section className="mt-16 bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8">
-          <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent mb-8 flex items-center">
+          <div className="flex items-center mb-8">
             <span className="text-4xl mr-4">🗓️</span>
-            Seasonal Golf Travel Guide
-          </h2>
+            <h2 className="text-3xl font-bold text-emerald-700 drop-shadow-lg">Seasonal Golf Travel Guide</h2>
+          </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Winter */}
@@ -227,11 +227,11 @@ export default function CoursesPage() {
         </section>
 
         {/* Golf Course Weather Factors */}
-        <section className="mt-16 bg-gradient-to-r from-emerald-600 to-teal-600 rounded-2xl shadow-xl text-white p-8">
-          <h2 className="text-3xl font-bold mb-8 flex items-center">
+        <section className="mt-16 bg-emerald-700 rounded-2xl shadow-xl text-white p-8">
+          <div className="flex items-center mb-8">
             <span className="text-4xl mr-4">🌍</span>
-            Unique Weather Factors by Course Type
-          </h2>
+            <h2 className="text-3xl font-bold">Unique Weather Factors by Course Type</h2>
+          </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             <div>

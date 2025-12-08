@@ -16,11 +16,12 @@ interface Recommendations {
 interface Props {
   onWeatherUpdate: (data: RoundWeatherData) => void
   onRecommendationUpdate: (recommendations: Recommendations) => void
+  onSuccess?: () => void
 }
 
 type RoundType = 'full' | 'half'
 
-export default function WeatherForm({ onWeatherUpdate, onRecommendationUpdate }: Props) {
+export default function WeatherForm({ onWeatherUpdate, onRecommendationUpdate, onSuccess }: Props) {
   const [location, setLocation] = useState('')
   const [date, setDate] = useState('')
   const [time, setTime] = useState('')
@@ -110,6 +111,7 @@ export default function WeatherForm({ onWeatherUpdate, onRecommendationUpdate }:
 
       onWeatherUpdate(weatherData)
       onRecommendationUpdate(recommendations)
+      onSuccess?.()
     } catch (fetchError) {
       console.error('Error fetching weather:', fetchError)
       setError('Unable to fetch weather data for this location. Please try again later.')
