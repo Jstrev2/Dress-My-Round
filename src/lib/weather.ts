@@ -11,7 +11,9 @@ export interface WeatherData {
 export interface RoundWeatherData {
   location: string
   startTime: string
+  startDate: string
   endTime: string
+  endDate: string
   duration: number // in hours
   hourlyForecast: WeatherData[]
   averageTemp: number
@@ -183,9 +185,23 @@ export function getGolfCourseWeather(courseName: string, city?: string): Promise
   return getWeatherData(searchQuery)
 }
 
-export async function getRoundWeatherData(location: string, date?: string, startTime?: string): Promise<RoundWeatherData> {
-  const roundDuration = 4.5 // hours
-  const startHour = startTime ? parseInt(startTime.split(':')[0]) : new Date().getHours()
+export async function getRoundWeatherData(location: string, date?: string, startTime?: string, roundDuration: number = 4.5): Promise<RoundWeatherData> {
+  // Parse and validate start time - extract both hour and minute
+  let startHour = 8
+  let startMinute = 0
+  if (startTime) {
+    const timeParts = startTime.split(':')
+    startHour = parseInt(timeParts[0])
+    startMinute = parseInt(timeParts[1]) || 0
+
+    // Validate and bound hour to valid golf range (5-19 = 5am-7pm)
+    if (isNaN(startHour) || startHour < 0 || startHour > 23) {
+      startHour = Math.max(5, Math.min(19, 8))
+    }
+  }
+
+  // Calculate how many hours we need (round up to include partial hours)
+  const hoursNeeded = Math.ceil(roundDuration)
 
   // Generate hourly forecasts for the round duration
   const hourlyForecast: WeatherData[] = []
@@ -214,7 +230,7 @@ export async function getRoundWeatherData(location: string, date?: string, start
       // For current weather, we still need forecast to get hourly data
       apiUrl = `https://api.weatherapi.com/v1/forecast.json?key=${WEATHER_API_KEY}&q=${encodeURIComponent(queryLocation)}&days=1&aqi=no&alerts=no`
     } else {
-      // Forecast weather (up to 3 days ahead for free tier)
+      // Forecast weather (up to 3 days ahead for free tier) - request more days to handle midnight crossings
       apiUrl = `https://api.weatherapi.com/v1/forecast.json?key=${WEATHER_API_KEY}&q=${encodeURIComponent(queryLocation)}&days=3&aqi=no&alerts=no`
     }
 
@@ -230,16 +246,24 @@ export async function getRoundWeatherData(location: string, date?: string, start
     const targetDateString = date || new Date().toISOString().split('T')[0]
     const targetDate = data.forecast.forecastday.find((day: any) => day.date === targetDateString)
 
+    // Get next day forecast in case round crosses midnight
+    const tomorrowDate = new Date(targetDateString + 'T00:00:00')
+    tomorrowDate.setDate(tomorrowDate.getDate() + 1)
+    const tomorrowDateString = tomorrowDate.toISOString().split('T')[0]
+    const tomorrowForecast = data.forecast.forecastday.find((day: any) => day.date === tomorrowDateString)
+
     if (!targetDate) {
       throw new Error('Forecast data not available for selected date')
     }
 
-    // Extract hourly data for the round duration
-    for (let i = 0; i < 5; i++) {
+    // Extract hourly data for the round duration - handle midnight crossing
+    for (let i = 0; i < hoursNeeded; i++) {
       const currentHour = (startHour + i) % 24
+      const isNextDay = (startHour + i) >= 24
+      const forecastDay = isNextDay && tomorrowForecast ? tomorrowForecast : targetDate
 
       // Find hourly data for this specific hour
-      const hourData = targetDate.hour.find((h: any) => {
+      const hourData = forecastDay.hour.find((h: any) => {
         const hourTime = new Date(h.time).getHours()
         return hourTime === currentHour
       })
@@ -262,7 +286,7 @@ export async function getRoundWeatherData(location: string, date?: string, start
         humidities.push(weatherData.humidity)
       } else {
         // Fallback to day average with some variation
-        const dayData = targetDate.day
+        const dayData = forecastDay.day
         const tempVariation = getHourlyTempVariation(i, dayData.avgtemp_f)
 
         const weatherData: WeatherData = {
@@ -311,13 +335,31 @@ export async function getRoundWeatherData(location: string, date?: string, start
   const hasConditionChanges = new Set(conditions).size > 2
   const weatherChanges = tempChange > 8 || hasConditionChanges
 
-  const endHour = (startHour + Math.ceil(roundDuration)) % 24
-  const endTime = `${endHour.toString().padStart(2, '0')}:${((roundDuration % 1) * 60).toString().padStart(2, '0')}`
+  // Calculate end time and date (handle midnight crossing)
+  const totalHours = startHour + Math.ceil(roundDuration)
+  const endHour = totalHours % 24
+  const dayOffset = Math.floor(totalHours / 24)
+
+  // Calculate minutes with proper rounding to avoid floating point issues
+  const minutesDecimal = (roundDuration % 1) * 60
+  const endMinutes = Math.round(minutesDecimal)
+  const endTime = `${endHour.toString().padStart(2, '0')}:${endMinutes.toString().padStart(2, '0')}`
+
+  // Calculate end date
+  const roundDate = date || new Date().toISOString().split('T')[0]
+  let endDate = roundDate
+  if (dayOffset > 0) {
+    const endDateObj = new Date(roundDate + 'T00:00:00')
+    endDateObj.setDate(endDateObj.getDate() + dayOffset)
+    endDate = endDateObj.toISOString().split('T')[0]
+  }
 
   return {
     location: hourlyForecast[0]?.location || location,
-    startTime: startTime || `${startHour}:00`,
+    startTime: startTime || `${startHour.toString().padStart(2, '0')}:${startMinute.toString().padStart(2, '0')}`,
+    startDate: roundDate,
     endTime,
+    endDate,
     duration: roundDuration,
     hourlyForecast,
     averageTemp,
@@ -388,8 +430,9 @@ function generateMockRoundWeather(location: string, date?: string, startTime?: s
   const windSpeeds: number[] = []
   const humidities: number[] = []
 
-  // Generate 5 hours of varied weather
-  for (let i = 0; i < 5; i++) {
+  // Generate hours of varied weather based on actual duration
+  const hoursNeeded = Math.ceil(actualDuration)
+  for (let i = 0; i < hoursNeeded; i++) {
     const currentHour = (actualStartHour + i) % 24
 
     // Realistic temperature progression
@@ -443,13 +486,29 @@ function generateMockRoundWeather(location: string, date?: string, startTime?: s
   const hasConditionChanges = new Set(weatherConditions).size > 2
   const weatherChanges = tempChange > 8 || hasConditionChanges
 
-  const endHour = (actualStartHour + Math.ceil(actualDuration)) % 24
-  const endTime = `${endHour.toString().padStart(2, '0')}:${((actualDuration % 1) * 60).toString().padStart(2, '0')}`
+  // Calculate end time and date (handle midnight crossing)
+  const totalHours = actualStartHour + Math.ceil(actualDuration)
+  const endHour = totalHours % 24
+  const dayOffset = Math.floor(totalHours / 24)
+  const minutesDecimal = (actualDuration % 1) * 60
+  const endMinutes = Math.round(minutesDecimal)
+  const endTime = `${endHour.toString().padStart(2, '0')}:${endMinutes.toString().padStart(2, '0')}`
+
+  // Calculate dates
+  const roundDate = date || new Date().toISOString().split('T')[0]
+  let endDate = roundDate
+  if (dayOffset > 0) {
+    const endDateObj = new Date(roundDate + 'T00:00:00')
+    endDateObj.setDate(endDateObj.getDate() + dayOffset)
+    endDate = endDateObj.toISOString().split('T')[0]
+  }
 
   return {
     location,
-    startTime: startTime || `${actualStartHour}:00`,
+    startTime: startTime || `${actualStartHour.toString().padStart(2, '0')}:00`,
+    startDate: roundDate,
     endTime,
+    endDate,
     duration: actualDuration,
     hourlyForecast,
     averageTemp,
