@@ -141,7 +141,9 @@ export async function getWeatherData(location: string, _date?: string, _time?: s
 
       return weatherData
     }
-  } catch (_error) {
+  } catch (error) {
+    // Log the error for debugging
+    console.error('Weather API error:', error)
     // Fallback to mock data
     return getMockWeatherData(location)
   }
@@ -272,7 +274,9 @@ export async function getRoundWeatherData(location: string, date?: string, start
         humidities.push(weatherData.humidity)
       }
     }
-  } catch (_error) {
+  } catch (error) {
+    // Log the error for debugging
+    console.error('Weather API error:', error)
     // Fallback to mock data
     return generateMockRoundWeather(location, date, startTime, startHour, roundDuration)
   }
