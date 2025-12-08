@@ -12,11 +12,9 @@ export default function WeatherTipsPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
         {/* Header */}
         <div className="text-center mb-16">
-          <div className="bg-emerald-700 text-white rounded-2xl shadow-lg p-8 mb-6 inline-block">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black">
-              Golf Weather Tips & Strategies
-            </h1>
-          </div>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-emerald-700 drop-shadow-lg mb-6">
+            Golf Weather Tips & Strategies
+          </h1>
           <p className="text-xl md:text-2xl text-gray-700 max-w-4xl mx-auto leading-relaxed">
             Master playing golf in any weather condition with expert tips, clothing strategies, and performance advice from golf professionals.
           </p>
@@ -27,9 +25,9 @@ export default function WeatherTipsPage() {
           <section className="grid lg:grid-cols-2 gap-8">
             {/* Rain Golf */}
             <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8">
-              <div className="bg-emerald-700 text-white rounded-xl shadow-lg p-4 mb-6 inline-flex items-center">
+              <div className="flex items-center mb-6">
                 <span className="text-4xl mr-4">🌧️</span>
-                <h2 className="text-3xl font-bold">Playing in Rain</h2>
+                <h2 className="text-3xl font-bold text-emerald-700 drop-shadow-lg">Playing in Rain</h2>
               </div>
 
               <div className="space-y-6">
@@ -70,9 +68,9 @@ export default function WeatherTipsPage() {
 
             {/* Wind Golf */}
             <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8">
-              <div className="bg-emerald-700 text-white rounded-xl shadow-lg p-4 mb-6 inline-flex items-center">
+              <div className="flex items-center mb-6">
                 <span className="text-4xl mr-4">💨</span>
-                <h2 className="text-3xl font-bold">Playing in Wind</h2>
+                <h2 className="text-3xl font-bold text-emerald-700 drop-shadow-lg">Playing in Wind</h2>
               </div>
 
               <div className="space-y-6">
@@ -116,9 +114,9 @@ export default function WeatherTipsPage() {
           <section className="grid lg:grid-cols-2 gap-8">
             {/* Hot Weather */}
             <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8">
-              <div className="bg-emerald-700 text-white rounded-xl shadow-lg p-4 mb-6 inline-flex items-center">
+              <div className="flex items-center mb-6">
                 <span className="text-4xl mr-4">🔥</span>
-                <h2 className="text-3xl font-bold">Hot Weather Golf</h2>
+                <h2 className="text-3xl font-bold text-emerald-700 drop-shadow-lg">Hot Weather Golf</h2>
               </div>
 
               <div className="space-y-6">
@@ -159,9 +157,9 @@ export default function WeatherTipsPage() {
 
             {/* Cold Weather */}
             <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8">
-              <div className="bg-emerald-700 text-white rounded-xl shadow-lg p-4 mb-6 inline-flex items-center">
+              <div className="flex items-center mb-6">
                 <span className="text-4xl mr-4">🥶</span>
-                <h2 className="text-3xl font-bold">Cold Weather Golf</h2>
+                <h2 className="text-3xl font-bold text-emerald-700 drop-shadow-lg">Cold Weather Golf</h2>
               </div>
 
               <div className="space-y-6">
@@ -203,9 +201,9 @@ export default function WeatherTipsPage() {
 
           {/* Advanced Weather Strategies */}
           <section className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8">
-            <div className="bg-emerald-700 text-white rounded-xl shadow-lg p-4 mb-8 inline-flex items-center">
+            <div className="flex items-center mb-8">
               <span className="text-4xl mr-4">🧠</span>
-              <h2 className="text-3xl font-bold">Advanced Weather Strategies</h2>
+              <h2 className="text-3xl font-bold text-emerald-700 drop-shadow-lg">Advanced Weather Strategies</h2>
             </div>
 
             <div className="grid md:grid-cols-3 gap-8">
@@ -341,9 +339,9 @@ export default function WeatherTipsPage() {
 
           {/* Weather Emergencies */}
           <section className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8">
-            <div className="bg-emerald-700 text-white rounded-xl shadow-lg p-4 mb-8 inline-flex items-center">
+            <div className="flex items-center mb-8">
               <span className="text-4xl mr-4">⚠️</span>
-              <h2 className="text-3xl font-bold">Weather Safety & Emergencies</h2>
+              <h2 className="text-3xl font-bold text-emerald-700 drop-shadow-lg">Weather Safety & Emergencies</h2>
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">

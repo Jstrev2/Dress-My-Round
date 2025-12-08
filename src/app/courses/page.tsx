@@ -55,11 +55,9 @@ export default function CoursesPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
         {/* Header */}
         <div className="text-center mb-16">
-          <div className="bg-emerald-700 text-white rounded-2xl shadow-lg p-8 mb-6 inline-block">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black">
-              Golf Courses & Climate Guide
-            </h1>
-          </div>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-emerald-700 drop-shadow-lg mb-6">
+            Golf Courses & Climate Guide
+          </h1>
           <p className="text-xl md:text-2xl text-gray-700 max-w-4xl mx-auto leading-relaxed">
             Discover popular golf destinations, their unique weather patterns, and expert clothing recommendations for each climate zone.
           </p>
@@ -70,11 +68,9 @@ export default function CoursesPage() {
           {golfDestinations.map((region, index) => (
             <section key={index} className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8">
               <div className="mb-8">
-                <div className="bg-emerald-700 text-white rounded-xl shadow-lg p-4 mb-4 inline-block">
-                  <h2 className="text-3xl font-bold">
-                    {region.region}
-                  </h2>
-                </div>
+                <h2 className="text-3xl font-bold text-emerald-700 drop-shadow-lg mb-4">
+                  {region.region}
+                </h2>
                 <div className="grid md:grid-cols-3 gap-4">
                   <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
                     <h3 className="font-semibold text-blue-800 mb-2">🌡️ Climate</h3>
@@ -118,9 +114,9 @@ export default function CoursesPage() {
 
         {/* Seasonal Clothing Guide */}
         <section className="mt-16 bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8">
-          <div className="bg-emerald-700 text-white rounded-xl shadow-lg p-4 mb-8 inline-flex items-center">
+          <div className="flex items-center mb-8">
             <span className="text-4xl mr-4">🗓️</span>
-            <h2 className="text-3xl font-bold">Seasonal Golf Travel Guide</h2>
+            <h2 className="text-3xl font-bold text-emerald-700 drop-shadow-lg">Seasonal Golf Travel Guide</h2>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">

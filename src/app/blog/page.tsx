@@ -12,11 +12,9 @@ export default function BlogPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
         {/* Header */}
         <div className="text-center mb-16">
-          <div className="bg-emerald-700 text-white rounded-2xl shadow-lg p-8 mb-6 inline-block">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black">
-              Golf Style Guide & Resources
-            </h1>
-          </div>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-emerald-700 drop-shadow-lg mb-6">
+            Golf Style Guide & Resources
+          </h1>
           <p className="text-xl md:text-2xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
             Master your golf wardrobe with expert tips, seasonal guides, and clothing recommendations for every weather condition.
           </p>
@@ -44,9 +42,9 @@ export default function BlogPage() {
         <div className="space-y-16">
           {/* Seasonal Golf Clothing Guide */}
           <section id="seasonal" className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8">
-            <div className="bg-emerald-700 text-white rounded-xl shadow-lg p-4 mb-8 inline-flex items-center">
+            <div className="flex items-center mb-8">
               <span className="text-4xl mr-4">🌡️</span>
-              <h2 className="text-3xl font-bold">Seasonal Golf Clothing Guide</h2>
+              <h2 className="text-3xl font-bold text-emerald-700 drop-shadow-lg">Seasonal Golf Clothing Guide</h2>
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -114,9 +112,9 @@ export default function BlogPage() {
 
           {/* Weather-Specific Gear */}
           <section id="weather" className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8">
-            <div className="bg-emerald-700 text-white rounded-xl shadow-lg p-4 mb-8 inline-flex items-center">
+            <div className="flex items-center mb-8">
               <span className="text-4xl mr-4">☔</span>
-              <h2 className="text-3xl font-bold">Weather-Specific Golf Gear</h2>
+              <h2 className="text-3xl font-bold text-emerald-700 drop-shadow-lg">Weather-Specific Golf Gear</h2>
             </div>
 
             <div className="grid md:grid-cols-3 gap-8">
@@ -223,9 +221,9 @@ export default function BlogPage() {
 
           {/* Golf Course Dress Codes */}
           <section id="dress-codes" className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8">
-            <div className="bg-emerald-700 text-white rounded-xl shadow-lg p-4 mb-8 inline-flex items-center">
+            <div className="flex items-center mb-8">
               <span className="text-4xl mr-4">👔</span>
-              <h2 className="text-3xl font-bold">Golf Course Dress Codes</h2>
+              <h2 className="text-3xl font-bold text-emerald-700 drop-shadow-lg">Golf Course Dress Codes</h2>
             </div>
 
             <div className="grid md:grid-cols-3 gap-8">
@@ -278,9 +276,9 @@ export default function BlogPage() {
 
           {/* Brand Recommendations */}
           <section id="brands" className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8">
-            <div className="bg-emerald-700 text-white rounded-xl shadow-lg p-4 mb-8 inline-flex items-center">
+            <div className="flex items-center mb-8">
               <span className="text-4xl mr-4">🛍️</span>
-              <h2 className="text-3xl font-bold">Recommended Golf Clothing Brands</h2>
+              <h2 className="text-3xl font-bold text-emerald-700 drop-shadow-lg">Recommended Golf Clothing Brands</h2>
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
