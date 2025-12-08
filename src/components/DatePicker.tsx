@@ -14,10 +14,16 @@ export default function DatePicker({ value, onChange, minDate, maxDate }: DatePi
   const [currentMonth, setCurrentMonth] = useState<Date>(new Date())
   const pickerRef = useRef<HTMLDivElement>(null)
 
-  // Parse dates
-  const minDateObj = new Date(minDate + 'T00:00:00')
-  const maxDateObj = new Date(maxDate + 'T00:00:00')
-  const selectedDate = value ? new Date(value + 'T00:00:00') : null
+  // Parse dates - use local date parsing to avoid timezone issues
+  // Parse YYYY-MM-DD format strings as local dates, not UTC
+  const parseLocalDate = (dateStr: string): Date => {
+    const [year, month, day] = dateStr.split('-').map(Number)
+    return new Date(year, month - 1, day)
+  }
+
+  const minDateObj = parseLocalDate(minDate)
+  const maxDateObj = parseLocalDate(maxDate)
+  const selectedDate = value ? parseLocalDate(value) : null
 
   // Close picker when clicking outside
   useEffect(() => {
@@ -42,10 +48,12 @@ export default function DatePicker({ value, onChange, minDate, maxDate }: DatePi
   }
 
   const isDateDisabled = (date: Date): boolean => {
-    const dateStr = date.toISOString().split('T')[0]
-    const minDateStr = minDateObj.toISOString().split('T')[0]
-    const maxDateStr = maxDateObj.toISOString().split('T')[0]
-    return dateStr < minDateStr || dateStr > maxDateStr
+    // Compare using local dates, not ISO strings which can be offset by timezone
+    // Reset time to midnight for fair comparison
+    const dateAtMidnight = new Date(date.getFullYear(), date.getMonth(), date.getDate())
+    const minAtMidnight = new Date(minDateObj.getFullYear(), minDateObj.getMonth(), minDateObj.getDate())
+    const maxAtMidnight = new Date(maxDateObj.getFullYear(), maxDateObj.getMonth(), maxDateObj.getDate())
+    return dateAtMidnight < minAtMidnight || dateAtMidnight > maxAtMidnight
   }
 
   const isDateSelected = (date: Date): boolean => {
@@ -59,7 +67,11 @@ export default function DatePicker({ value, onChange, minDate, maxDate }: DatePi
 
   const handleDateClick = (date: Date) => {
     if (!isDateDisabled(date)) {
-      const dateStr = date.toISOString().split('T')[0]
+      // Format as YYYY-MM-DD in local time, not UTC
+      const year = date.getFullYear()
+      const month = String(date.getMonth() + 1).padStart(2, '0')
+      const day = String(date.getDate()).padStart(2, '0')
+      const dateStr = `${year}-${month}-${day}`
       onChange(dateStr)
       setIsOpen(false)
     }
