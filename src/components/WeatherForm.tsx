@@ -37,7 +37,15 @@ export default function WeatherForm({ onWeatherUpdate, onRecommendationUpdate, o
 
     const now = new Date()
     // Round up to the next full hour
-    const roundedHour = now.getMinutes() === 0 ? now.getHours() : now.getHours() + 1
+    let roundedHour = now.getMinutes() === 0 ? now.getHours() : now.getHours() + 1
+
+    // Cap to valid golf hours (5am-7pm / 5:00-19:00)
+    if (roundedHour < 5) {
+      roundedHour = 5
+    } else if (roundedHour > 19) {
+      roundedHour = 14 // Default to 2pm if after 7pm
+    }
+
     const nextHour = new Date(now.getFullYear(), now.getMonth(), now.getDate(), roundedHour, 0)
     const hours = String(nextHour.getHours()).padStart(2, '0')
     const minutes = String(nextHour.getMinutes()).padStart(2, '0')
