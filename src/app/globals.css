@@ -108,12 +108,9 @@ body {
   }
 }
 
-/* Grass texture background */
+/* Grass/mint texture background */
 .bg-grass-texture {
-  background-image: url('/grass-pattern.svg');
-  background-size: 200px 100px;
-  background-repeat: repeat;
-  background-attachment: fixed;
+  @apply bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50;
 }
 
 /* Print styles */

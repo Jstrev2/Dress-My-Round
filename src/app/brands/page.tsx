@@ -316,12 +316,12 @@ export default function BrandsPage() {
           <div className="relative z-10">
             <div className="flex items-center justify-between mb-6">
               <div>
-                <h2 className="text-3xl font-bold mb-2">🏆 #1 Ranked Brand</h2>
-                <h3 className="text-5xl font-black">{topBrand.name}</h3>
+                <h2 className="text-3xl font-bold mb-2 drop-shadow-lg">🏆 #1 Ranked Brand</h2>
+                <h3 className="text-5xl font-black drop-shadow-lg">{topBrand.name}</h3>
                 <p className="text-xl opacity-90 mt-2">{topBrand.specialty}</p>
               </div>
               <div className="text-right">
-                <div className="text-6xl font-black">{topBrand.rating}</div>
+                <div className="text-6xl font-black drop-shadow-lg">{topBrand.rating}</div>
                 <div className="text-lg opacity-90">Overall Rating</div>
               </div>
             </div>
