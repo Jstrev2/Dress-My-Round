@@ -37,7 +37,15 @@ export default function WeatherForm({ onWeatherUpdate, onRecommendationUpdate, o
 
     const now = new Date()
     // Round up to the next full hour
-    const roundedHour = now.getMinutes() === 0 ? now.getHours() : now.getHours() + 1
+    let roundedHour = now.getMinutes() === 0 ? now.getHours() : now.getHours() + 1
+
+    // Cap to valid golf hours (5am-7pm / 5:00-19:00)
+    if (roundedHour < 5) {
+      roundedHour = 5
+    } else if (roundedHour > 19) {
+      roundedHour = 14 // Default to 2pm if after 7pm
+    }
+
     const nextHour = new Date(now.getFullYear(), now.getMonth(), now.getDate(), roundedHour, 0)
     const hours = String(nextHour.getHours()).padStart(2, '0')
     const minutes = String(nextHour.getMinutes()).padStart(2, '0')
@@ -82,8 +90,37 @@ export default function WeatherForm({ onWeatherUpdate, onRecommendationUpdate, o
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+
+    // Validate location
     if (!location.trim()) {
       setError('Please enter a location before requesting your weather report.')
+      return
+    }
+
+    // Validate date is set
+    if (!date) {
+      setError('Please select a date for your round.')
+      return
+    }
+
+    // Validate date is not in the past
+    const selectedDate = new Date(date + 'T00:00:00')
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+    if (selectedDate < today) {
+      setError('Please select a date that is today or in the future.')
+      return
+    }
+
+    // Validate tee time is within golf hours
+    const timeMatch = time.match(/^(\d{1,2}):(\d{2})$/)
+    if (!timeMatch) {
+      setError('Invalid time format.')
+      return
+    }
+    const hour = parseInt(timeMatch[1])
+    if (hour < 5 || hour > 19) {
+      setError('Please select a tee time between 5:00 AM and 7:00 PM.')
       return
     }
 
