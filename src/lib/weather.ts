@@ -23,7 +23,7 @@ export interface RoundWeatherData {
 }
 
 // TEMPORARY: Hardcoded API key for testing - REMOVE BEFORE PRODUCTION
-const WEATHER_API_KEY = 'f79d68d5b2864066a0841523250812' || process.env.WEATHER_API_KEY
+const WEATHER_API_KEY = 'f79d68d5b2864066a0841523250812'
 
 // Debug log to verify API key is loaded
 if (typeof window === 'undefined') {
