@@ -58,7 +58,9 @@ export default function WeatherDisplay({ weatherData }: Props) {
             <span className="text-emerald-700 font-medium">Round Time:</span>
             <span className="font-semibold text-gray-900">
               {weatherData.startTime && weatherData.endTime ?
-              `${formatTime12Hour(parseInt(weatherData.startTime.split(':')[0]))} - ${formatTime12Hour(parseInt(weatherData.endTime.split(':')[0]))}` :
+              `${formatTime12Hour(parseInt(weatherData.startTime.split(':')[0]))} - ${formatTime12Hour(parseInt(weatherData.endTime.split(':')[0]))}${
+                weatherData.endDate && weatherData.startDate !== weatherData.endDate ? ' (next day)' : ''
+              }` :
               `${weatherData.duration} hours`}
             </span>
           </div>
@@ -94,9 +96,11 @@ export default function WeatherDisplay({ weatherData }: Props) {
         </div>
         <div className="flex space-x-2 sm:space-x-3 overflow-x-auto pb-2">
           {weatherData.hourlyForecast.slice(0, 5).map((hourData, index) => {
-            const hour24 = weatherData.startTime ?
-              (parseInt(weatherData.startTime.split(':')[0]) + index) % 24 :
-              index + 8
+            // Parse both hour and minute from startTime
+            const startTimeParts = weatherData.startTime ? weatherData.startTime.split(':') : ['8', '0']
+            const startHour = parseInt(startTimeParts[0])
+            const startMinute = parseInt(startTimeParts[1]) || 0
+            const hour24 = (startHour + index) % 24
             const formattedTime = formatTime12Hour(hour24)
             const weatherIcon = getWeatherIcon(hourData.condition)
 
