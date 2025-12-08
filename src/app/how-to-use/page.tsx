@@ -12,9 +12,11 @@ export default function HowToUsePage() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
         {/* Header */}
         <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 bg-clip-text text-transparent mb-6">
-            How to Use Dress My Round
-          </h1>
+          <div className="bg-emerald-700 text-white rounded-2xl shadow-lg p-8 mb-6 inline-block">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black">
+              How to Use Dress My Round
+            </h1>
+          </div>
           <p className="text-xl md:text-2xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
             Get the most out of our golf weather app with this comprehensive guide to perfect golf attire recommendations.
           </p>
@@ -179,11 +181,11 @@ export default function HowToUsePage() {
           </section>
 
           {/* Understanding Recommendations */}
-          <section className="bg-gradient-to-r from-emerald-600 to-teal-600 rounded-2xl shadow-xl text-white p-8">
-            <h2 className="text-3xl font-bold mb-8 flex items-center">
+          <section className="bg-emerald-700 rounded-2xl shadow-xl text-white p-8">
+            <div className="flex items-center mb-8">
               <span className="text-4xl mr-4">🧠</span>
-              Understanding Your Recommendations
-            </h2>
+              <h2 className="text-3xl font-bold">Understanding Your Recommendations</h2>
+            </div>
 
             <div className="grid md:grid-cols-2 gap-8">
               <div>
@@ -212,10 +214,10 @@ export default function HowToUsePage() {
 
           {/* Pro Tips */}
           <section className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8">
-            <h2 className="text-3xl font-bold bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-transparent mb-8 flex items-center">
+            <div className="bg-emerald-700 text-white rounded-xl shadow-lg p-4 mb-8 inline-flex items-center">
               <span className="text-4xl mr-4">💡</span>
-              Pro Tips for Best Results
-            </h2>
+              <h2 className="text-3xl font-bold">Pro Tips for Best Results</h2>
+            </div>
 
             <div className="grid md:grid-cols-2 gap-8">
               <div className="space-y-4">
