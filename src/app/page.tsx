@@ -1,7 +1,8 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import WeatherForm from '@/components/WeatherForm'
 import RecommendationDisplay from '@/components/RecommendationDisplay'
+import RecommendationModal from '@/components/RecommendationModal'
 import WeatherDisplay from '@/components/WeatherDisplay'
 import { RoundWeatherData } from '@/lib/weather'
 
@@ -16,6 +17,23 @@ interface Recommendations {
 export default function Home() {
   const [weatherData, setWeatherData] = useState<RoundWeatherData | null>(null)
   const [recommendations, setRecommendations] = useState<Recommendations | null>(null)
+  const [showModal, setShowModal] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+
+  // Auto-open modal on mobile when recommendations appear
+  useEffect(() => {
+    if (recommendations && isMobile) {
+      setShowModal(true)
+    }
+  }, [recommendations, isMobile])
+
+  // Check if mobile on mount and window resize
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 1024)
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50">
@@ -46,8 +64,8 @@ export default function Home() {
             )}
           </div>
 
-          {/* Right Column - Outfit Recommendations (Upper Right) */}
-          <div className="lg:col-span-1">
+          {/* Right Column - Outfit Recommendations (Desktop only) */}
+          <div className="hidden lg:block lg:col-span-1">
             <RecommendationDisplay
               weatherData={weatherData}
               recommendations={recommendations}
@@ -55,6 +73,14 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+      {/* Mobile Recommendation Modal */}
+      <RecommendationModal
+        weatherData={weatherData}
+        recommendations={recommendations}
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+      />
     </div>
   )
 }
