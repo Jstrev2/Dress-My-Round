@@ -24,6 +24,11 @@ export interface RoundWeatherData {
 
 const WEATHER_API_KEY = process.env.WEATHER_API_KEY
 
+// Debug log to verify API key is loaded
+if (typeof window === 'undefined') {
+  console.log('[Weather] API Key status:', WEATHER_API_KEY ? 'Loaded' : 'Missing')
+}
+
 // Helper function to convert zip code to city,state format using WeatherAPI's search
 async function resolveZipCode(zipCode: string): Promise<string> {
   if (!WEATHER_API_KEY) {
@@ -85,7 +90,8 @@ export async function getWeatherData(location: string, _date?: string, _time?: s
     const response = await fetch(apiUrl)
 
     if (!response.ok) {
-      throw new Error('Weather data not found')
+      const errorText = await response.text()
+      throw new Error(`Weather API error (${response.status}): ${errorText}`)
     }
 
     const data = await response.json()
@@ -213,7 +219,8 @@ export async function getRoundWeatherData(location: string, date?: string, start
 
     const response = await fetch(apiUrl)
     if (!response.ok) {
-      throw new Error('Weather data not found')
+      const errorText = await response.text()
+      throw new Error(`Weather API error (${response.status}): ${errorText}`)
     }
 
     const data = await response.json()
