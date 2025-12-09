@@ -221,23 +221,14 @@ export async function getRoundWeatherData(location: string, date?: string, start
   }
 
   try {
-    // Determine if we need current or forecast data
-    const isCurrentWeather = !date || date === new Date().toISOString().split('T')[0]
-
     // For US zip codes, resolve to city name first
     let queryLocation = location
     if (/^\d{5}(-\d{4})?$/.test(location)) {
       queryLocation = await resolveZipCode(location)
     }
 
-    let apiUrl: string
-    if (isCurrentWeather) {
-      // For current weather, we still need forecast to get hourly data
-      apiUrl = `https://api.weatherapi.com/v1/forecast.json?key=${WEATHER_API_KEY}&q=${encodeURIComponent(queryLocation)}&days=1&aqi=no&alerts=no`
-    } else {
-      // Forecast weather (up to 3 days ahead for free tier) - request more days to handle midnight crossings
-      apiUrl = `https://api.weatherapi.com/v1/forecast.json?key=${WEATHER_API_KEY}&q=${encodeURIComponent(queryLocation)}&days=3&aqi=no&alerts=no`
-    }
+    // Always request multiple days so we can rely on the location's local date instead of the server timezone
+    const apiUrl = `https://api.weatherapi.com/v1/forecast.json?key=${WEATHER_API_KEY}&q=${encodeURIComponent(queryLocation)}&days=3&aqi=no&alerts=no`
 
     const response = await fetch(apiUrl)
     if (!response.ok) {
@@ -247,8 +238,9 @@ export async function getRoundWeatherData(location: string, date?: string, start
 
     const data = await response.json()
 
-    // Find the target date
-    const targetDateString = date || new Date().toISOString().split('T')[0]
+    // Find the target date using the location's local date to avoid UTC shifts (e.g. US evenings running ahead of UTC)
+    const locationDateString = (data.location?.localtime || '').split(' ')[0] || new Date().toISOString().split('T')[0]
+    const targetDateString = date || locationDateString
     const targetDate = data.forecast.forecastday.find((day: any) => day.date === targetDateString)
 
     // Get next day forecast in case round crosses midnight
