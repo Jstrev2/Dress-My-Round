@@ -120,7 +120,13 @@ export async function getWeatherData(location: string, _date?: string, _time?: s
       let weatherData
       if (_time) {
         const targetHour = parseInt(_time.split(':')[0])
-        const hourData = targetDate.hour.find((h: any) => new Date(h.time).getHours() === targetHour)
+        const hourData = targetDate.hour.find((h: any) => {
+          // WeatherAPI returns local time strings without timezone information (e.g. "2024-05-28 18:00").
+          // Parsing with Date would convert to server timezone and shift the hour for locations in other timezones.
+          const hourString = String(h.time).split(' ')[1] || ''
+          const parsedHour = parseInt(hourString.split(':')[0], 10)
+          return parsedHour === targetHour
+        })
         if (hourData) {
           weatherData = {
             location: `${data.location.name}, ${data.location.region}`,
@@ -263,7 +269,10 @@ export async function getRoundWeatherData(location: string, date?: string, start
 
       // Find hourly data for this specific hour
       const hourData = forecastDay.hour.find((h: any) => {
-        const hourTime = new Date(h.time).getHours()
+        // WeatherAPI hour timestamps are local to the queried location. Using Date() would apply the server timezone
+        // and shift late-evening hours into the wrong day (especially overnight), so parse the hour directly.
+        const hourString = String(h.time).split(' ')[1] || ''
+        const hourTime = parseInt(hourString.split(':')[0], 10)
         return hourTime === currentHour
       })
 
