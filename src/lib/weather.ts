@@ -31,21 +31,61 @@ if (typeof window === 'undefined') {
   console.log('[Weather] API Key status:', WEATHER_API_KEY ? 'Loaded' : 'Missing')
 }
 
-// Helper function to convert zip code to city,state format using WeatherAPI's search
-async function resolveZipCode(zipCode: string): Promise<string> {
+// Helper function to resolve a user-supplied location to a precise WeatherAPI search target
+async function resolveQueryLocation(location: string): Promise<string> {
   if (!WEATHER_API_KEY) {
-    return zipCode
+    return location
+  }
+
+  // If it looks like a lat/long pair, let WeatherAPI handle it directly
+  if (/^-?\d+(?:\.\d+)?\s*,\s*-?\d+(?:\.\d+)?$/.test(location)) {
+    return location
+  }
+
+  // For bare zip codes, try to return the city + state so we stay in the correct country
+  if (/^\d{5}(-\d{4})?$/.test(location)) {
+    return resolveZipCode(location)
   }
 
   try {
-    // Use WeatherAPI's search endpoint to resolve the zip code
+    const searchUrl = `https://api.weatherapi.com/v1/search.json?key=${WEATHER_API_KEY}&q=${encodeURIComponent(location)}`
+    const response = await fetch(searchUrl)
+
+    if (response.ok) {
+      const results = await response.json()
+
+      // Prefer US matches when available (e.g., "DuPage County" should not match Ireland)
+      const prioritized = results.sort((a: any, b: any) => {
+        const aUs = a.country_code === 'US' || a.country === 'United States of America'
+        const bUs = b.country_code === 'US' || b.country === 'United States of America'
+        if (aUs && !bUs) return -1
+        if (!aUs && bUs) return 1
+        return 0
+      })
+
+      const best = prioritized[0]
+      if (best) {
+        const countryCode = best.country_code?.toUpperCase() || best.country
+        return [best.name, best.region, countryCode].filter(Boolean).join(', ')
+      }
+    }
+  } catch (_error) {
+    // Fall through to return original location
+  }
+
+  return location
+}
+
+// Helper function to convert zip code to city,state format using WeatherAPI's search
+async function resolveZipCode(zipCode: string): Promise<string> {
+  try {
     const searchUrl = `https://api.weatherapi.com/v1/search.json?key=${WEATHER_API_KEY}&q=${zipCode}`
     const response = await fetch(searchUrl)
 
     if (response.ok) {
       const results = await response.json()
       // Filter for US results only
-      const usResults = results.filter((r: any) => r.country === 'United States of America' || r.country === 'USA')
+      const usResults = results.filter((r: any) => r.country === 'United States of America' || r.country === 'USA' || r.country_code === 'US')
 
       if (usResults.length > 0) {
         const result = usResults[0]
@@ -75,11 +115,7 @@ export async function getWeatherData(location: string, _date?: string, _time?: s
     const isCurrentWeather = !_date || _date === new Date().toISOString().split('T')[0]
 
     let apiUrl: string
-    // For US zip codes, resolve to city name first
-    let queryLocation = location
-    if (/^\d{5}(-\d{4})?$/.test(location)) {
-      queryLocation = await resolveZipCode(location)
-    }
+    const queryLocation = await resolveQueryLocation(location)
 
     if (isCurrentWeather) {
       // Current weather
@@ -221,11 +257,7 @@ export async function getRoundWeatherData(location: string, date?: string, start
   }
 
   try {
-    // For US zip codes, resolve to city name first
-    let queryLocation = location
-    if (/^\d{5}(-\d{4})?$/.test(location)) {
-      queryLocation = await resolveZipCode(location)
-    }
+    const queryLocation = await resolveQueryLocation(location)
 
     // Always request multiple days so we can rely on the location's local date instead of the server timezone
     const apiUrl = `https://api.weatherapi.com/v1/forecast.json?key=${WEATHER_API_KEY}&q=${encodeURIComponent(queryLocation)}&days=3&aqi=no&alerts=no`
