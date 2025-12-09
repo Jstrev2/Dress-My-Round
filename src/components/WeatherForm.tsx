@@ -71,7 +71,18 @@ export default function WeatherForm({ onWeatherUpdate, onRecommendationUpdate, o
             `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
           )
           const data = await response.json()
-          const locationName = data.address?.city || data.address?.town || data.address?.county || `${latitude.toFixed(4)}, ${longitude.toFixed(4)}`
+
+          // Build a more specific location string to avoid WeatherAPI matching the wrong country
+          const cityLike = data.address?.city || data.address?.town || data.address?.village
+          const county = data.address?.county
+          const state = data.address?.state || data.address?.region
+          const country = data.address?.country_code?.toUpperCase()
+
+          const locationParts = [cityLike || county, state, country].filter(Boolean)
+          const locationName = locationParts.length > 0
+            ? locationParts.join(', ')
+            : `${latitude.toFixed(4)}, ${longitude.toFixed(4)}`
+
           setLocation(locationName)
         } catch (geoError) {
           console.error('Error reverse geocoding:', geoError)
