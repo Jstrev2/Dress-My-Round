@@ -31,8 +31,17 @@ if (typeof window === 'undefined') {
   console.log('[Weather] API Key status:', WEATHER_API_KEY ? 'Loaded' : 'Missing')
 }
 
+interface WeatherSearchResult {
+  name: string
+  region?: string
+  country?: string
+  country_code?: string
+  lat?: number
+  lon?: number
+}
+
 // Helper function to resolve a user-supplied location to a precise WeatherAPI search target
-async function resolveQueryLocation(location: string): Promise<string> {
+export async function resolveQueryLocation(location: string, fetcher: typeof fetch = fetch): Promise<string> {
   if (!WEATHER_API_KEY) {
     return location
   }
@@ -44,23 +53,27 @@ async function resolveQueryLocation(location: string): Promise<string> {
 
   // For bare zip codes, try to return the city + state so we stay in the correct country
   if (/^\d{5}(-\d{4})?$/.test(location)) {
-    return resolveZipCode(location)
+    return resolveZipCode(location, fetcher)
   }
 
   try {
     const searchUrl = `https://api.weatherapi.com/v1/search.json?key=${WEATHER_API_KEY}&q=${encodeURIComponent(location)}`
-    const response = await fetch(searchUrl)
+    const response = await fetcher(searchUrl)
 
     if (response.ok) {
-      const results = await response.json()
+      const results: WeatherSearchResult[] = await response.json()
 
       // Prefer US matches when available (e.g., "DuPage County" should not match Ireland)
-      const prioritized = results.sort((a: any, b: any) => {
-        const aUs = a.country_code === 'US' || a.country === 'United States of America'
-        const bUs = b.country_code === 'US' || b.country === 'United States of America'
-        if (aUs && !bUs) return -1
-        if (!aUs && bUs) return 1
-        return 0
+      const normalizedQuery = location.toLowerCase()
+      const usResults = results.filter((result) => {
+        const country = (result.country_code || result.country || '').toLowerCase()
+        return country === 'us' || country.includes('united states')
+      })
+
+      const prioritized = (usResults.length > 0 ? usResults : results).sort((a, b) => {
+        const aScore = scoreSearchResult(a, normalizedQuery)
+        const bScore = scoreSearchResult(b, normalizedQuery)
+        return bScore - aScore
       })
 
       const best = prioritized[0]
@@ -76,11 +89,32 @@ async function resolveQueryLocation(location: string): Promise<string> {
   return location
 }
 
+// Score WeatherAPI search results so we prefer US counties/states that match the query
+function scoreSearchResult(result: WeatherSearchResult, normalizedQuery: string): number {
+  const country = (result.country_code || result.country || '').toLowerCase()
+  const isUS = country === 'us' || country.includes('united states')
+
+  const stateHints = ['illinois', 'il', 'usa', 'united states', 'us']
+  const hasStateHint = stateHints.some((hint) => normalizedQuery.includes(hint))
+
+  const isCountyQuery = normalizedQuery.includes('county')
+  const matchesCountyName = isCountyQuery && result.name.toLowerCase().includes('county')
+
+  const matchesRegionHint = !!result.region && normalizedQuery.includes(result.region.toLowerCase())
+
+  const baseScore = isUS ? 100 : 0
+  const countyScore = matchesCountyName ? 15 : 0
+  const stateScore = hasStateHint && isUS ? 10 : 0
+  const regionScore = matchesRegionHint ? 5 : 0
+
+  return baseScore + countyScore + stateScore + regionScore
+}
+
 // Helper function to convert zip code to city,state format using WeatherAPI's search
-async function resolveZipCode(zipCode: string): Promise<string> {
+async function resolveZipCode(zipCode: string, fetcher: typeof fetch = fetch): Promise<string> {
   try {
     const searchUrl = `https://api.weatherapi.com/v1/search.json?key=${WEATHER_API_KEY}&q=${zipCode}`
-    const response = await fetch(searchUrl)
+    const response = await fetcher(searchUrl)
 
     if (response.ok) {
       const results = await response.json()
