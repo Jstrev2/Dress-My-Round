@@ -41,30 +41,53 @@ interface WeatherSearchResult {
 }
 
 // Helper function to resolve a user-supplied location to a precise WeatherAPI search target
+export function validateCityOrAreaCode(rawLocation: string): string {
+  const location = rawLocation.trim()
+
+  if (!location) {
+    throw new Error('Please enter a city name or area code.')
+  }
+
+  if (/county/i.test(location)) {
+    throw new Error('Counties are not supported. Please enter a city or area code instead.')
+  }
+
+  const areaCodePattern = /^\d{3,5}(?:-\d{4})?$/
+  if (areaCodePattern.test(location)) {
+    return location
+  }
+
+  // City names with optional state/region (letters, spaces, apostrophes, hyphens, and commas)
+  const cityPattern = /^[a-zA-Z][a-zA-Z\s\-'\.]*?(?:,\s*[a-zA-Z][a-zA-Z\s\-'\.]*)?$/
+  if (cityPattern.test(location) && !/\d/.test(location)) {
+    return location
+  }
+
+  throw new Error('Only city names or area codes are allowed.')
+}
+
 export async function resolveQueryLocation(location: string, fetcher: typeof fetch = fetch): Promise<string> {
   if (!WEATHER_API_KEY) {
     return location
   }
 
-  // If it looks like a lat/long pair, let WeatherAPI handle it directly
-  if (/^-?\d+(?:\.\d+)?\s*,\s*-?\d+(?:\.\d+)?$/.test(location)) {
-    return location
-  }
+  // Validation ensures we only process cities or numeric area codes
+  const validatedLocation = validateCityOrAreaCode(location)
 
-  // For bare zip codes, try to return the city + state so we stay in the correct country
-  if (/^\d{5}(-\d{4})?$/.test(location)) {
-    return resolveZipCode(location, fetcher)
+  // For bare zip/area codes, try to return the city + state so we stay in the correct country
+  if (/^\d{3,5}(-\d{4})?$/.test(validatedLocation)) {
+    return resolveZipCode(validatedLocation, fetcher)
   }
 
   try {
-    const searchUrl = `https://api.weatherapi.com/v1/search.json?key=${WEATHER_API_KEY}&q=${encodeURIComponent(location)}`
+    const searchUrl = `https://api.weatherapi.com/v1/search.json?key=${WEATHER_API_KEY}&q=${encodeURIComponent(validatedLocation)}`
     const response = await fetcher(searchUrl)
 
     if (response.ok) {
       const results: WeatherSearchResult[] = await response.json()
 
       // Prefer US matches when available (e.g., "DuPage County" should not match Ireland)
-      const normalizedQuery = location.toLowerCase()
+      const normalizedQuery = validatedLocation.toLowerCase()
       const usResults = results.filter((result) => {
         const country = (result.country_code || result.country || '').toLowerCase()
         return country === 'us' || country.includes('united states')
@@ -83,10 +106,10 @@ export async function resolveQueryLocation(location: string, fetcher: typeof fet
       }
     }
   } catch (_error) {
-    // Fall through to return original location
+    // Fall through to return validated location
   }
 
-  return location
+  return validatedLocation
 }
 
 // Score WeatherAPI search results so we prefer US counties/states that match the query
@@ -123,8 +146,9 @@ async function resolveZipCode(zipCode: string, fetcher: typeof fetch = fetch): P
 
       if (usResults.length > 0) {
         const result = usResults[0]
-        // Return in format: "City, State"
-        return `${result.name}, ${result.region}`
+        // Return in format: "City, State, CountryCode" to keep searches anchored in the US
+        const countryCode = (result.country_code || 'US').toUpperCase()
+        return `${result.name}, ${result.region}, ${countryCode}`
       }
     }
 
@@ -136,12 +160,14 @@ async function resolveZipCode(zipCode: string, fetcher: typeof fetch = fetch): P
 }
 
 export async function getWeatherData(location: string, _date?: string, _time?: string): Promise<WeatherData> {
+  const validatedLocation = validateCityOrAreaCode(location)
+
   // For demo purposes, we'll use a free weather service or mock data
   // In production, you'd use a service like OpenWeatherMap, WeatherAPI, or similar
 
   if (!WEATHER_API_KEY) {
     // Return mock data if no API key is set
-    return getMockWeatherData(location)
+    return getMockWeatherData(validatedLocation)
   }
 
   try {
@@ -149,7 +175,7 @@ export async function getWeatherData(location: string, _date?: string, _time?: s
     const isCurrentWeather = !_date || _date === new Date().toISOString().split('T')[0]
 
     let apiUrl: string
-    const queryLocation = await resolveQueryLocation(location)
+    const queryLocation = await resolveQueryLocation(validatedLocation)
 
     if (isCurrentWeather) {
       // Current weather
@@ -229,7 +255,7 @@ export async function getWeatherData(location: string, _date?: string, _time?: s
     // Log the error for debugging
     console.error('Weather API error:', error)
     // Fallback to mock data
-    return getMockWeatherData(location)
+    return getMockWeatherData(validatedLocation)
   }
 }
 
@@ -261,6 +287,8 @@ export function getGolfCourseWeather(courseName: string, city?: string): Promise
 }
 
 export async function getRoundWeatherData(location: string, date?: string, startTime?: string, roundDuration: number = 4.5): Promise<RoundWeatherData> {
+  const validatedLocation = validateCityOrAreaCode(location)
+
   // Parse and validate start time - extract both hour and minute
   let startHour = 8
   let startMinute = 0
@@ -287,11 +315,11 @@ export async function getRoundWeatherData(location: string, date?: string, start
 
   if (!WEATHER_API_KEY) {
     // Generate mock data with variations
-    return generateMockRoundWeather(location, date, startTime, startHour, roundDuration)
+    return generateMockRoundWeather(validatedLocation, date, startTime, startHour, roundDuration)
   }
 
   try {
-    const queryLocation = await resolveQueryLocation(location)
+    const queryLocation = await resolveQueryLocation(validatedLocation)
 
     // Always request multiple days so we can rely on the location's local date instead of the server timezone
     const apiUrl = `https://api.weatherapi.com/v1/forecast.json?key=${WEATHER_API_KEY}&q=${encodeURIComponent(queryLocation)}&days=3&aqi=no&alerts=no`
@@ -376,7 +404,7 @@ export async function getRoundWeatherData(location: string, date?: string, start
     // Log the error for debugging
     console.error('Weather API error:', error)
     // Fallback to mock data
-    return generateMockRoundWeather(location, date, startTime, startHour, roundDuration)
+    return generateMockRoundWeather(validatedLocation, date, startTime, startHour, roundDuration)
   }
 
   // Calculate statistics

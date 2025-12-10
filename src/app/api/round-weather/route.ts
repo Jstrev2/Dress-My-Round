@@ -1,4 +1,4 @@
-import { getRoundWeatherData } from '@/lib/weather'
+import { getRoundWeatherData, validateCityOrAreaCode } from '@/lib/weather'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(request: NextRequest) {
@@ -12,7 +12,18 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const weatherData = await getRoundWeatherData(location, date, startTime)
+    let validatedLocation: string
+
+    try {
+      validatedLocation = validateCityOrAreaCode(location)
+    } catch (validationError: any) {
+      return NextResponse.json(
+        { error: validationError?.message || 'Only city names or area codes are allowed.' },
+        { status: 400 }
+      )
+    }
+
+    const weatherData = await getRoundWeatherData(validatedLocation, date, startTime)
     return NextResponse.json(weatherData)
   } catch (error) {
     console.error('Error fetching round weather data:', error)

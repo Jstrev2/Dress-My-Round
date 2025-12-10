@@ -3,7 +3,7 @@ import { FormEvent, useEffect, useState } from 'react'
 import { Locate, Loader } from 'lucide-react'
 import SearchableLocationInput from './SearchableLocationInput'
 import DatePicker from './DatePicker'
-import { RoundWeatherData } from '@/lib/weather'
+import { RoundWeatherData, validateCityOrAreaCode } from '@/lib/weather'
 
 interface Recommendations {
   top: string[]
@@ -74,16 +74,19 @@ export default function WeatherForm({ onWeatherUpdate, onRecommendationUpdate, o
 
           // Build a more specific location string to avoid WeatherAPI matching the wrong country
           const cityLike = data.address?.city || data.address?.town || data.address?.village
-          const county = data.address?.county
+          const postcode = data.address?.postcode
           const state = data.address?.state || data.address?.region
           const country = data.address?.country_code?.toUpperCase()
 
-          const locationParts = [cityLike || county, state, country].filter(Boolean)
-          const locationName = locationParts.length > 0
-            ? locationParts.join(', ')
-            : `${latitude.toFixed(4)}, ${longitude.toFixed(4)}`
+          const possibleLocation = cityLike
+            ? [cityLike, state, country].filter(Boolean).join(', ')
+            : (typeof postcode === 'string' ? postcode : '')
 
-          setLocation(locationName)
+          if (possibleLocation) {
+            setLocation(possibleLocation)
+          } else {
+            setError('Could not determine a city or area code from your location. Please enter it manually.')
+          }
         } catch (geoError) {
           console.error('Error reverse geocoding:', geoError)
           setError('Could not determine location name. Please try again.')
@@ -105,6 +108,14 @@ export default function WeatherForm({ onWeatherUpdate, onRecommendationUpdate, o
     // Validate location
     if (!location.trim()) {
       setError('Please enter a location before requesting your weather report.')
+      return
+    }
+
+    let validatedLocation: string
+    try {
+      validatedLocation = validateCityOrAreaCode(location)
+    } catch (validationError: any) {
+      setError(validationError?.message || 'Please enter a valid city or area code.')
       return
     }
 
@@ -143,7 +154,7 @@ export default function WeatherForm({ onWeatherUpdate, onRecommendationUpdate, o
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          location,
+          location: validatedLocation,
           date,
           startTime: time,
         }),
@@ -185,7 +196,7 @@ export default function WeatherForm({ onWeatherUpdate, onRecommendationUpdate, o
             <SearchableLocationInput
               value={location}
               onChange={setLocation}
-              placeholder="City, zip code, or golf course"
+              placeholder="City or area code"
               className="w-full px-4 py-2.5 pr-12 border-2 border-gray-300 rounded-lg text-base text-gray-900 bg-white focus:ring-2 focus:ring-emerald-500 focus:ring-opacity-50 focus:border-emerald-500 transition-all duration-200 placeholder-gray-500"
             />
             <button

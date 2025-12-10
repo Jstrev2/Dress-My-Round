@@ -4,16 +4,19 @@ import { test } from 'node:test'
 // Ensure the Weather API key is present before importing the module so the resolver executes
 process.env.WEATHER_API_KEY = 'test-key'
 
-test('prefers US county results when multiple countries share the name', async () => {
+test('rejects county-based inputs', async () => {
+  const { validateCityOrAreaCode } = await import('../lib/weather')
+
+  assert.throws(
+    () => validateCityOrAreaCode('DuPage County'),
+    /Counties are not supported/i
+  )
+})
+
+test('resolves area codes through WeatherAPI search', async () => {
   const mockResults = [
     {
-      name: 'County Bridge',
-      region: 'Laois',
-      country: 'Ireland',
-      country_code: 'IE'
-    },
-    {
-      name: 'DuPage County',
+      name: 'Naperville',
       region: 'Illinois',
       country: 'United States of America',
       country_code: 'US'
@@ -27,7 +30,7 @@ test('prefers US county results when multiple countries share the name', async (
     })
 
   const { resolveQueryLocation } = await import('../lib/weather')
-  const resolved = await resolveQueryLocation('DuPage County', fetcher as typeof fetch)
+  const resolved = await resolveQueryLocation('60540', fetcher as typeof fetch)
 
-  assert.equal(resolved, 'DuPage County, Illinois, US')
+  assert.equal(resolved, 'Naperville, Illinois, US')
 })
