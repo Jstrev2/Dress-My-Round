@@ -31,26 +31,124 @@ if (typeof window === 'undefined') {
   console.log('[Weather] API Key status:', WEATHER_API_KEY ? 'Loaded' : 'Missing')
 }
 
-// Helper function to convert zip code to city,state format using WeatherAPI's search
-async function resolveZipCode(zipCode: string): Promise<string> {
+interface WeatherSearchResult {
+  name: string
+  region?: string
+  country?: string
+  country_code?: string
+  lat?: number
+  lon?: number
+}
+
+// Helper function to resolve a user-supplied location to a precise WeatherAPI search target
+export function validateCityOrAreaCode(rawLocation: string): string {
+  const location = rawLocation.trim()
+
+  if (!location) {
+    throw new Error('Please enter a city name or area code.')
+  }
+
+  if (/county/i.test(location)) {
+    throw new Error('Counties are not supported. Please enter a city or area code instead.')
+  }
+
+  const areaCodePattern = /^\d{3,5}(?:-\d{4})?$/
+  if (areaCodePattern.test(location)) {
+    return location
+  }
+
+  // City names with optional state/region (letters, spaces, apostrophes, hyphens, and commas)
+  const cityPattern = /^[a-zA-Z][a-zA-Z\s\-'\.]*?(?:,\s*[a-zA-Z][a-zA-Z\s\-'\.]*)?$/
+  if (cityPattern.test(location) && !/\d/.test(location)) {
+    return location
+  }
+
+  throw new Error('Only city names or area codes are allowed.')
+}
+
+export async function resolveQueryLocation(location: string, fetcher: typeof fetch = fetch): Promise<string> {
   if (!WEATHER_API_KEY) {
-    return zipCode
+    return location
+  }
+
+  // Validation ensures we only process cities or numeric area codes
+  const validatedLocation = validateCityOrAreaCode(location)
+
+  // For bare zip/area codes, try to return the city + state so we stay in the correct country
+  if (/^\d{3,5}(-\d{4})?$/.test(validatedLocation)) {
+    return resolveZipCode(validatedLocation, fetcher)
   }
 
   try {
-    // Use WeatherAPI's search endpoint to resolve the zip code
+    const searchUrl = `https://api.weatherapi.com/v1/search.json?key=${WEATHER_API_KEY}&q=${encodeURIComponent(validatedLocation)}`
+    const response = await fetcher(searchUrl)
+
+    if (response.ok) {
+      const results: WeatherSearchResult[] = await response.json()
+
+      // Prefer US matches when available (e.g., "DuPage County" should not match Ireland)
+      const normalizedQuery = validatedLocation.toLowerCase()
+      const usResults = results.filter((result) => {
+        const country = (result.country_code || result.country || '').toLowerCase()
+        return country === 'us' || country.includes('united states')
+      })
+
+      const prioritized = (usResults.length > 0 ? usResults : results).sort((a, b) => {
+        const aScore = scoreSearchResult(a, normalizedQuery)
+        const bScore = scoreSearchResult(b, normalizedQuery)
+        return bScore - aScore
+      })
+
+      const best = prioritized[0]
+      if (best) {
+        const countryCode = best.country_code?.toUpperCase() || best.country
+        return [best.name, best.region, countryCode].filter(Boolean).join(', ')
+      }
+    }
+  } catch (_error) {
+    // Fall through to return validated location
+  }
+
+  return validatedLocation
+}
+
+// Score WeatherAPI search results so we prefer US counties/states that match the query
+function scoreSearchResult(result: WeatherSearchResult, normalizedQuery: string): number {
+  const country = (result.country_code || result.country || '').toLowerCase()
+  const isUS = country === 'us' || country.includes('united states')
+
+  const stateHints = ['illinois', 'il', 'usa', 'united states', 'us']
+  const hasStateHint = stateHints.some((hint) => normalizedQuery.includes(hint))
+
+  const isCountyQuery = normalizedQuery.includes('county')
+  const matchesCountyName = isCountyQuery && result.name.toLowerCase().includes('county')
+
+  const matchesRegionHint = !!result.region && normalizedQuery.includes(result.region.toLowerCase())
+
+  const baseScore = isUS ? 100 : 0
+  const countyScore = matchesCountyName ? 15 : 0
+  const stateScore = hasStateHint && isUS ? 10 : 0
+  const regionScore = matchesRegionHint ? 5 : 0
+
+  return baseScore + countyScore + stateScore + regionScore
+}
+
+// Helper function to convert zip code to city,state format using WeatherAPI's search
+async function resolveZipCode(zipCode: string, fetcher: typeof fetch = fetch): Promise<string> {
+  try {
     const searchUrl = `https://api.weatherapi.com/v1/search.json?key=${WEATHER_API_KEY}&q=${zipCode}`
-    const response = await fetch(searchUrl)
+    const response = await fetcher(searchUrl)
 
     if (response.ok) {
       const results = await response.json()
       // Filter for US results only
-      const usResults = results.filter((r: any) => r.country === 'United States of America' || r.country === 'USA')
+      const usResults = results.filter((r: any) => r.country === 'United States of America' || r.country === 'USA' || r.country_code === 'US')
 
       if (usResults.length > 0) {
         const result = usResults[0]
-        // Return in format: "City, State"
-        return `${result.name}, ${result.region}`
+        // Return in format: "City, State, CountryCode" to keep searches anchored in the US
+        const countryCode = (result.country_code || 'US').toUpperCase()
+        return `${result.name}, ${result.region}, ${countryCode}`
       }
     }
 
@@ -62,12 +160,14 @@ async function resolveZipCode(zipCode: string): Promise<string> {
 }
 
 export async function getWeatherData(location: string, _date?: string, _time?: string): Promise<WeatherData> {
+  const validatedLocation = validateCityOrAreaCode(location)
+
   // For demo purposes, we'll use a free weather service or mock data
   // In production, you'd use a service like OpenWeatherMap, WeatherAPI, or similar
 
   if (!WEATHER_API_KEY) {
     // Return mock data if no API key is set
-    return getMockWeatherData(location)
+    return getMockWeatherData(validatedLocation)
   }
 
   try {
@@ -75,11 +175,7 @@ export async function getWeatherData(location: string, _date?: string, _time?: s
     const isCurrentWeather = !_date || _date === new Date().toISOString().split('T')[0]
 
     let apiUrl: string
-    // For US zip codes, resolve to city name first
-    let queryLocation = location
-    if (/^\d{5}(-\d{4})?$/.test(location)) {
-      queryLocation = await resolveZipCode(location)
-    }
+    const queryLocation = await resolveQueryLocation(validatedLocation)
 
     if (isCurrentWeather) {
       // Current weather
@@ -120,7 +216,13 @@ export async function getWeatherData(location: string, _date?: string, _time?: s
       let weatherData
       if (_time) {
         const targetHour = parseInt(_time.split(':')[0])
-        const hourData = targetDate.hour.find((h: any) => new Date(h.time).getHours() === targetHour)
+        const hourData = targetDate.hour.find((h: any) => {
+          // WeatherAPI returns local time strings without timezone information (e.g. "2024-05-28 18:00").
+          // Parsing with Date would convert to server timezone and shift the hour for locations in other timezones.
+          const hourString = String(h.time).split(' ')[1] || ''
+          const parsedHour = parseInt(hourString.split(':')[0], 10)
+          return parsedHour === targetHour
+        })
         if (hourData) {
           weatherData = {
             location: `${data.location.name}, ${data.location.region}`,
@@ -153,7 +255,7 @@ export async function getWeatherData(location: string, _date?: string, _time?: s
     // Log the error for debugging
     console.error('Weather API error:', error)
     // Fallback to mock data
-    return getMockWeatherData(location)
+    return getMockWeatherData(validatedLocation)
   }
 }
 
@@ -185,6 +287,8 @@ export function getGolfCourseWeather(courseName: string, city?: string): Promise
 }
 
 export async function getRoundWeatherData(location: string, date?: string, startTime?: string, roundDuration: number = 4.5): Promise<RoundWeatherData> {
+  const validatedLocation = validateCityOrAreaCode(location)
+
   // Parse and validate start time - extract both hour and minute
   let startHour = 8
   let startMinute = 0
@@ -211,27 +315,14 @@ export async function getRoundWeatherData(location: string, date?: string, start
 
   if (!WEATHER_API_KEY) {
     // Generate mock data with variations
-    return generateMockRoundWeather(location, date, startTime, startHour, roundDuration)
+    return generateMockRoundWeather(validatedLocation, date, startTime, startHour, roundDuration)
   }
 
   try {
-    // Determine if we need current or forecast data
-    const isCurrentWeather = !date || date === new Date().toISOString().split('T')[0]
+    const queryLocation = await resolveQueryLocation(validatedLocation)
 
-    // For US zip codes, resolve to city name first
-    let queryLocation = location
-    if (/^\d{5}(-\d{4})?$/.test(location)) {
-      queryLocation = await resolveZipCode(location)
-    }
-
-    let apiUrl: string
-    if (isCurrentWeather) {
-      // For current weather, we still need forecast to get hourly data
-      apiUrl = `https://api.weatherapi.com/v1/forecast.json?key=${WEATHER_API_KEY}&q=${encodeURIComponent(queryLocation)}&days=1&aqi=no&alerts=no`
-    } else {
-      // Forecast weather (up to 3 days ahead for free tier) - request more days to handle midnight crossings
-      apiUrl = `https://api.weatherapi.com/v1/forecast.json?key=${WEATHER_API_KEY}&q=${encodeURIComponent(queryLocation)}&days=3&aqi=no&alerts=no`
-    }
+    // Always request multiple days so we can rely on the location's local date instead of the server timezone
+    const apiUrl = `https://api.weatherapi.com/v1/forecast.json?key=${WEATHER_API_KEY}&q=${encodeURIComponent(queryLocation)}&days=3&aqi=no&alerts=no`
 
     const response = await fetch(apiUrl)
     if (!response.ok) {
@@ -241,8 +332,9 @@ export async function getRoundWeatherData(location: string, date?: string, start
 
     const data = await response.json()
 
-    // Find the target date
-    const targetDateString = date || new Date().toISOString().split('T')[0]
+    // Find the target date using the location's local date to avoid UTC shifts (e.g. US evenings running ahead of UTC)
+    const locationDateString = (data.location?.localtime || '').split(' ')[0] || new Date().toISOString().split('T')[0]
+    const targetDateString = date || locationDateString
     const targetDate = data.forecast.forecastday.find((day: any) => day.date === targetDateString)
 
     // Get next day forecast in case round crosses midnight
@@ -263,7 +355,10 @@ export async function getRoundWeatherData(location: string, date?: string, start
 
       // Find hourly data for this specific hour
       const hourData = forecastDay.hour.find((h: any) => {
-        const hourTime = new Date(h.time).getHours()
+        // WeatherAPI hour timestamps are local to the queried location. Using Date() would apply the server timezone
+        // and shift late-evening hours into the wrong day (especially overnight), so parse the hour directly.
+        const hourString = String(h.time).split(' ')[1] || ''
+        const hourTime = parseInt(hourString.split(':')[0], 10)
         return hourTime === currentHour
       })
 
@@ -309,7 +404,7 @@ export async function getRoundWeatherData(location: string, date?: string, start
     // Log the error for debugging
     console.error('Weather API error:', error)
     // Fallback to mock data
-    return generateMockRoundWeather(location, date, startTime, startHour, roundDuration)
+    return generateMockRoundWeather(validatedLocation, date, startTime, startHour, roundDuration)
   }
 
   // Calculate statistics
